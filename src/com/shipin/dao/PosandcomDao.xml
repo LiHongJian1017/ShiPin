@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shipin.dao.PosandcomDao">
+	<select id="selectordertime" resultType="com.shipin.pojo.Posandcom">
+		select position.positionid positionid,position.positionname positionname,position.workaddress workaddress,position.salarymin salarymin,position.salarymax salarymax,position.education education,position.experience experience,position.positionadvantage positionadvantage,position.releasetime releasetime,
+position.companyid companyid,company.companyname companyname,company.companytype companytype,company.companysize companysize,company.companyceoname companyceoname,company.companyceoname companyceoname,company.companylogo companylogo,company.companytag1 companytag1,company.companytag2 companytag2,company.companytag3 companytag3,company.companytag4 companytag4,company.companytag5 companytag5 
+from position join company on position.companyid=company.companyid where status=1 order by  releasetime desc limit 10
+	</select>
+	<select id="selectordernumber" resultType="com.shipin.pojo.Posandcom">
+		select position.positionid positionid,position.positionname positionname,position.workaddress workaddress,position.salarymin salarymin,position.salarymax salarymax,position.education education,position.experience experience,position.positionadvantage positionadvantage,position.releasetime releasetime,
+position.companyid companyid,company.companyname companyname,company.companytype companytype,company.companysize companysize,company.companyceoname companyceoname,company.companyceoname companyceoname,company.companylogo companylogo,company.companytag1 companytag1,company.companytag2 companytag2,company.companytag3 companytag3,company.companytag4 companytag4,company.companytag5 companytag5 
+from position join company on position.companyid=company.companyid where status=1 order by  number desc limit 10
+	</select>
+	<select id="selectposition" parameterType="int" resultType="com.shipin.pojo.Position">
+		select * from position where positionid = #{positionid}
+	</select>
+	<select id="selectcompany" parameterType="int" resultType="com.shipin.pojo.Company">
+		select * from company where companyid = #{companyid}
+	</select>
+	<select id="selectcollection" parameterType="Map" resultType="com.shipin.pojo.Collection">
+		select * from collection where userid = #{userid} and positionid = #{positionid}
+	</select>
+	<select id="selectlianheposition" parameterType="int" resultType="com.shipin.pojo.Lianheposition">
+		select * from lianheposition where companyid = #{companyid}
+	</select>
+	<select id="select_position" parameterType="int" resultType="com.shipin.pojo.Position">
+		select * from position where companyid=#{companyid,jdbcType=INTEGER} and status=1
+	</select>
+	<insert id="collection" parameterType="Map">
+		insert into collection (userid, positionid,updatetime) values (#{userid}, #{positionid}, #{updatetime})
+	</insert>
+	<delete id="concelcollection" parameterType="Map">
+		delete from collection where positionid=#{positionid} and userid=#{userid}
+	</delete>
+	<select id="selectjob" parameterType="Map" resultType="com.shipin.pojo.Posandcom">
+		select position.positionid positionid,position.positionname positionname,position.workaddress workaddress,position.salarymin salarymin,position.salarymax salarymax,position.education education,position.experience experience,position.positionadvantage positionadvantage,position.releasetime releasetime,
+		position.companyid companyid,company.companyname companyname,company.companytype companytype,company.companysize companysize,company.companyceoname companyceoname,company.companyceoname companyceoname,company.companylogo companylogo,company.companytag1 companytag1,company.companytag2 companytag2,company.companytag3 companytag3,company.companytag4 companytag4,company.companytag5 companytag5 
+		from position join company on position.companyid=company.companyid 
+	<where>
+		<if test="positionname != null and positionname != ''">
+		and position.positionname like '%${positionname}%'
+		</if>
+		<if test="workaddress != null and workaddress != ''">
+		and position.workaddress =#{workaddress}
+		</if>
+		<if test="salarymin != null and salarymin != ''">
+		and <![CDATA[CONVERT(position.salarymin,SIGNED)>= ]]> #{salarymin}
+		</if>
+		<if test="salarymax != null and salarymax != ''">
+		and <![CDATA[CONVERT(position.salarymax,SIGNED)<= ]]> #{salarymax}
+		</if>
+		<if test="experience != null and experience != ''">
+		and <![CDATA[CONVERT(position.experience,SIGNED)>= ]]> #{experiencestart}
+		</if>
+		<if test="experience != null and experience != ''">
+		and <![CDATA[CONVERT(position.experience,SIGNED)<= ]]> #{experienceend}
+		</if>
+		<if test="education != null and education != ''">
+		and <![CDATA[CONVERT(position.education,SIGNED)>= ]]> #{realeducation}
+		</if>
+		<if test="positionnature != null and positionnature != ''">
+		and position.positionnature =#{positionnature}
+		</if>
+		and status=1 
+	</where>
+	limit #{start},9
+	</select>
+	
+	<select id="selectjobcount" parameterType="Map" resultType="int">
+		select count(*)
+		from position join company on position.companyid=company.companyid 
+	<where>
+		<if test="positionname != null and positionname != ''">
+		and position.positionname like '%${positionname}%'
+		</if>
+		<if test="workaddress != null and workaddress != ''">
+		and position.workaddress =#{workaddress}
+		</if>
+		<if test="salarymin != null and salarymin != ''">
+		and <![CDATA[CONVERT(position.salarymin,SIGNED)>= ]]> #{salarymin}
+		</if>
+		<if test="salarymax != null and salarymax != ''">
+		and <![CDATA[CONVERT(position.salarymax,SIGNED)<= ]]> #{salarymax}
+		</if>
+		<if test="experience != null and experience != ''">
+		and <![CDATA[CONVERT(position.experience,SIGNED)>= ]]> #{experiencestart}
+		</if>
+		<if test="experience != null and experience != ''">
+		and <![CDATA[CONVERT(position.experience,SIGNED)<= ]]> #{experienceend}
+		</if>
+		<if test="education != null and education != ''">
+		and <![CDATA[CONVERT(position.education,SIGNED)>= ]]> #{realeducation}
+		</if>
+		<if test="positionnature != null and positionnature != ''">
+		and position.positionnature =#{positionnature}
+		</if>
+		and status=1 
+	</where>
+	</select>
+	<update id="addone" parameterType="int">
+		update position 
+		<!-- set标签作用:
+					第一可以自动添加set关键字, 
+					第二可以去掉最后一个更新的逗号 -->
+		<set>
+				number=number+1
+		</set>
+		where positionid=#{positionid,jdbcType=INTEGER}
+	</update>
+	<select id="selectcompanyall" parameterType="Map" resultType="com.shipin.pojo.Company">
+		select * from company join user on company.userid=user.userid
+	<where>
+		<if test="companyname != null and companyname != ''">
+		and company.companyname like '%${companyname}%'
+		</if>
+		<if test="companyaddress != null and companyaddress != ''">
+		and company.companyaddress =#{companyaddress}
+		</if>
+		<if test="companysize != null and companysize != ''">
+		and  company.companysize =#{companysize}
+		</if>
+		and user.status=1 
+	</where>
+	limit #{start},9
+	</select>
+	
+	<select id="selectcompanycount" parameterType="Map" resultType="int">
+		select count(*) from company join user on company.userid=user.userid
+	<where>
+		<if test="companyname != null and companyname != ''">
+		and company.companyname like '%${companyname}%'
+		</if>
+		<if test="companyaddress != null and companyaddress != ''">
+		and company.companyaddress =#{companyaddress}
+		</if>
+		<if test="companysize != null and companysize != ''">
+		and  company.companysize =#{companysize}
+		</if>
+		and user.status=1 
+	</where>
+	</select>
+	<select id="selectremen" resultType="com.shipin.pojo.Position">
+		select position.positionid positionid,position.positionname positionname,position.workaddress workaddress,position.salarymin salarymin,position.salarymax salarymax,position.education education,position.experience experience,position.positionadvantage positionadvantage,position.releasetime releasetime,
+position.companyid companyid,company.companyname companyname,company.companytype companytype,company.companysize companysize,company.companyceoname companyceoname,company.companyceoname companyceoname,company.companylogo companylogo,company.companytag1 companytag1,company.companytag2 companytag2,company.companytag3 companytag3,company.companytag4 companytag4,company.companytag5 companytag5 
+from position join company on position.companyid=company.companyid where status=1 order by  number desc limit 6
+	</select>
+	
+</mapper>

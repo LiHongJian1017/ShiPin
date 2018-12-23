@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shipin.dao.UserjianliDao">
+	<select id="jianli" parameterType="int" resultType="com.shipin.pojo.Jianli">
+		select * from jianli where userid = #{userid}
+	</select>
+	<select id="selectdelivert" parameterType="Map" resultType="com.shipin.pojo.Delivery">
+		select * from delivery where userid = #{userid,jdbcType=INTEGER} and positionid = #{positionid,jdbcType=INTEGER}
+	</select>
+	
+	<update id="uploadjianli" parameterType="com.shipin.pojo.Jianli">
+		update jianli 
+		<!-- set标签作用:
+					第一可以自动添加set关键字, 
+					第二可以去掉最后一个更新的逗号 -->
+		<set>
+			<if test="jianliname != null and  jianliname != ''">
+				jianliname=#{jianliname} ,
+			</if>
+			<if test="image != null and  image != ''">
+				image=#{image} ,
+			</if>
+			<if test="name != null and  name != ''">
+				name=#{name} ,
+			</if>
+			<if test="sex != null and  sex != ''">
+				sex=#{sex} ,
+			</if>
+			<if test="education != null and  education != ''">
+				education=#{education} ,
+			</if>
+			<if test="experience != null and  experience != ''">
+				experience=#{experience} ,
+			</if>
+			<if test="phone != null and  phone != ''">
+				phone=#{phone} ,
+			</if>
+			<if test="email != null and  email != ''">
+				email=#{email} ,
+			</if>
+			<if test="workstatus != null and  workstatus != ''">
+				workstatus=#{workstatus} ,
+			</if>
+			<if test="workaddress != null and  workaddress != ''">
+				workaddress=#{workaddress} ,
+			</if>
+			<if test="positionnature != null and  positionnature != ''">
+				positionnature=#{positionnature} ,
+			</if>
+			<if test="hopepositionname != null and  hopepositionname != ''">
+				hopepositionname=#{hopepositionname} ,
+			</if>
+			<if test="salarymin != null and  salarymin != ''">
+				salarymin=#{salarymin} ,
+			</if>
+			<if test="salarymax != null and  salarymax != ''">
+				salarymax=#{salarymax} ,
+			</if>
+			<if test="workexperience != null and  workexperience != ''">
+				workexperience=#{workexperience} ,
+			</if>
+			<if test="schoolname != null and  schoolname != ''">
+				schoolname=#{schoolname} ,
+			</if>
+			<if test="specialty != null and  specialty != ''">
+				specialty=#{specialty} ,
+			</if>
+			<if test="yearstart != null and  yearstart != ''">
+				yearstart=#{yearstart} ,
+			</if>
+			<if test="yearend != null and  yearend != ''">
+				yearend=#{yearend} ,
+			</if>
+			<if test="selfdescription != null and  selfdescription != ''">
+				selfdescription=#{selfdescription} ,
+			</if>
+			<if test="certification != null and  certification != ''">
+				certification=#{certification} ,
+			</if>
+			<if test="status != null and  status != ''">
+				status=#{status} ,
+			</if>
+			<if test="updatetime != null and  updatetime != ''">
+				updatetime=#{updatetime} ,
+			</if>
+			
+		</set>
+		where userid=#{userid}
+	</update>
+	
+	<insert id="delivery" parameterType="com.shipin.pojo.Delivery">
+		insert into delivery (positionid, positionname, userid, jianliname, image, name, sex, education, experience, phone, email, workstatus, workaddress, positionnature, hopepositionname, salarymin, salarymax, workexperience, schoolname, specialty, yearstart, yearend, selfdescription, certification, status, updatetime) values (#{positionid}, #{positionname}, #{userid}, #{jianliname}, #{image}, #{name}, #{sex}, #{education}, #{experience}, #{phone}, #{email}, #{workstatus}, #{workaddress}, #{positionnature}, #{hopepositionname}, #{salarymin}, #{salarymax}, #{workexperience}, #{schoolname}, #{specialty}, #{yearstart}, #{yearend}, #{selfdescription}, #{certification}, #{status}, #{updatetime})	
+	</insert>
+	
+</mapper>

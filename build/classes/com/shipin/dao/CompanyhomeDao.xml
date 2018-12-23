@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shipin.dao.CompanyhomeDao">
+	<update id="updatecompanyceo" parameterType="Map">
+		update company 
+		<!-- set标签作用:
+					第一可以自动添加set关键字, 
+					第二可以去掉最后一个更新的逗号 -->
+		<set>
+			<if test="companyceoname != null and  companyceoname != ''">
+				companyceoname=#{companyceoname} ,
+			</if>
+			<if test="companyceologo != null and  companyceologo != ''">
+				companyceologo=#{companyceologo} ,
+			</if>
+			<if test="companyceoposition != null and  companyceoposition != ''">
+				companyceoposition=#{companyceoposition} ,
+			</if>
+			<if test="companyceoweibo != null and  companyceoweibo != ''">
+				companyceoweibo=#{companyceoweibo} ,
+			</if>
+			<if test="companyceoremark != null and  companyceoremark != ''">
+				companyceoremark=#{companyceoremark} ,
+			</if>
+		</set>
+		where companyid=#{companyid,jdbcType=INTEGER}
+	</update>
+	<update id="uploadlogo" parameterType="com.shipin.pojo.Company">
+		update company 
+		<!-- set标签作用:
+					第一可以自动添加set关键字, 
+					第二可以去掉最后一个更新的逗号 -->
+		<set>
+			<if test="companylogo != null and  companylogo != ''">
+				companylogo=#{companylogo} ,
+			</if>
+		</set>
+		where companyid=#{companyid,jdbcType=INTEGER}
+	</update>
+	<update id="updatetags" parameterType="com.shipin.pojo.Company">
+		update company 
+		<!-- set标签作用:
+					第一可以自动添加set关键字, 
+					第二可以去掉最后一个更新的逗号 -->
+		<set>
+			<if test="companytag1 != null">
+				companytag1=#{companytag1} ,
+			</if>
+			<if test="companytag2 != null">
+				companytag2=#{companytag2} ,
+			</if>
+			<if test="companytag3 != null">
+				companytag3=#{companytag3} ,
+			</if>
+			<if test="companytag4 != null">
+				companytag4=#{companytag4} ,
+			</if>
+			<if test="companytag5 != null">
+				companytag5=#{companytag5} ,
+			</if>
+		</set>
+		where companyid=#{companyid,jdbcType=INTEGER}
+	</update>
+	<update id="updatecompanytop" parameterType="com.shipin.pojo.Company">
+		update company 
+		<!-- set标签作用:
+					第一可以自动添加set关键字, 
+					第二可以去掉最后一个更新的逗号 -->
+		<set>
+			<if test="companyname != null and  companyname != ''">
+				companyname=#{companyname} ,
+			</if>
+			<if test="companyfeatures != null and  companyfeatures != ''">
+				companyfeatures=#{companyfeatures} ,
+			</if>
+		</set>
+		where companyid=#{companyid,jdbcType=INTEGER}
+	</update>
+	<update id="updatecompanyintroduce" parameterType="com.shipin.pojo.Company">
+		update company 
+		<!-- set标签作用:
+					第一可以自动添加set关键字, 
+					第二可以去掉最后一个更新的逗号 -->
+		<set>
+			<if test="companyintroduce != null">
+				companyintroduce=#{companyintroduce} ,
+			</if>
+		</set>
+		where companyid=#{companyid,jdbcType=INTEGER}
+	</update>
+	<update id="updatecompanyright" parameterType="com.shipin.pojo.Company">
+		update company 
+		<!-- set标签作用:
+					第一可以自动添加set关键字, 
+					第二可以去掉最后一个更新的逗号 -->
+		<set>
+			<if test="companyaddress != null">
+				companyaddress=#{companyaddress} ,
+			</if>
+			<if test="companytype != null">
+				companytype=#{companytype} ,
+			</if>
+			<if test="companysize != null">
+				companysize=#{companysize} ,
+			</if>
+			<if test="companyweb != null">
+				companyweb=#{companyweb} ,
+			</if>
+		</set>
+		where companyid=#{companyid,jdbcType=INTEGER}
+	</update>
+	<select id="companyAll" parameterType="int" resultType="com.shipin.pojo.Company">
+		select * from company where companyid=#{companyid,jdbcType=INTEGER}
+	</select>
+	<select id="select_position" parameterType="Map" resultType="com.shipin.pojo.Position">
+		select * from position where companyid=#{companyid,jdbcType=INTEGER} and status=#{status,jdbcType=INTEGER}
+	</select>
+</mapper>

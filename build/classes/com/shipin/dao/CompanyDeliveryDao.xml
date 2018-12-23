@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shipin.dao.CompanyDeliveryDao">
+	<update id="updatecompanyceo" parameterType="Map">
+		update company 
+		<!-- set标签作用:
+					第一可以自动添加set关键字, 
+					第二可以去掉最后一个更新的逗号 -->
+		<set>
+			<if test="companyceoname != null and  companyceoname != ''">
+				companyceoname=#{companyceoname} ,
+			</if>
+			<if test="companyceologo != null and  companyceologo != ''">
+				companyceologo=#{companyceologo} ,
+			</if>
+			<if test="companyceoposition != null and  companyceoposition != ''">
+				companyceoposition=#{companyceoposition} ,
+			</if>
+			<if test="companyceoweibo != null and  companyceoweibo != ''">
+				companyceoweibo=#{companyceoweibo} ,
+			</if>
+			<if test="companyceoremark != null and  companyceoremark != ''">
+				companyceoremark=#{companyceoremark} ,
+			</if>
+		</set>
+		where companyid=#{companyid}
+	</update>
+	<update id="deliverystatus" parameterType="Map">
+		update delivery 
+		<!-- set标签作用:
+					第一可以自动添加set关键字, 
+					第二可以去掉最后一个更新的逗号 -->
+		<set>
+			<if test="status != null and  status != ''">
+				status=#{status} ,
+			</if>
+		</set>
+		where deliveryid=#{deliveryid}
+	</update>
+	<select id="delivery" parameterType="Map" resultType="com.shipin.pojo.Delivery">
+		select * from delivery where positionid in (select positionid from position where companyid=#{companyid,jdbcType=INTEGER} and status=1) and status=#{status,jdbcType=INTEGER} limit #{start},6
+	</select>
+	<select id="count" parameterType="Map" resultType="int">
+		select count(*) from delivery where positionid in (select positionid from position where companyid=#{companyid,jdbcType=INTEGER} and status=1) and status=#{status,jdbcType=INTEGER}
+	</select>
+	<select id="counttiaojian" parameterType="Map" resultType="int">
+		select count(*) from delivery where positionid in (select positionid from position where companyid=#{companyid,jdbcType=INTEGER} and status=1) and status=#{status,jdbcType=INTEGER}
+		and <![CDATA[CONVERT(experience,SIGNED)>= ]]> #{realexperiencestart,jdbcType=INTEGER} and <![CDATA[CONVERT(experience,SIGNED)< ]]>#{realexperienceend,jdbcType=INTEGER} and <![CDATA[CONVERT(education,SIGNED)>= ]]>#{realeducation,jdbcType=INTEGER} 
+	</select>
+	<select id="deliverytiaojian" parameterType="Map" resultType="com.shipin.pojo.Delivery">
+		select * from delivery where positionid in (select positionid from position where companyid=#{companyid,jdbcType=INTEGER} and status=1) and status=#{status,jdbcType=INTEGER}
+		and <![CDATA[CONVERT(experience,SIGNED)>= ]]> #{realexperiencestart,jdbcType=INTEGER} and <![CDATA[CONVERT(experience,SIGNED)< ]]>#{realexperienceend,jdbcType=INTEGER} and <![CDATA[CONVERT(education,SIGNED)>= ]]>#{realeducation,jdbcType=INTEGER} 
+		limit #{start},6
+	</select>
+	<select id="auditpreview" parameterType="int" resultType="com.shipin.pojo.Delivery">
+		select * from delivery where deliveryid = #{deliveryid}
+	</select>
+</mapper>
