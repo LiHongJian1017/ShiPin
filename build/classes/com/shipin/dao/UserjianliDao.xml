@@ -8,6 +8,18 @@
 		select * from delivery where userid = #{userid,jdbcType=INTEGER} and positionid = #{positionid,jdbcType=INTEGER}
 	</select>
 	
+	<update id="uploadjianlistatus" parameterType="Map">
+		update jianli 
+		<!-- set标签作用:
+					第一可以自动添加set关键字, 
+					第二可以去掉最后一个更新的逗号 -->
+		<set>
+			<if test="status != null">
+				status=#{status} ,
+			</if>
+		</set>
+		where userid=#{userid}
+	</update>
 	<update id="uploadjianli" parameterType="com.shipin.pojo.Jianli">
 		update jianli 
 		<!-- set标签作用:

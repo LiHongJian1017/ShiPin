@@ -15,4 +15,6 @@ public interface UserjianliDao {
 
 	void delivery(Delivery delivery);
 
+	void uploadjianlistatus(Map map);
+
 }

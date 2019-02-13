@@ -8,7 +8,64 @@
 <script type="text/javascript" async="" src="style/js/conversion.js"></script>
 <script src="style/js/allmobilize.min.js" charset="utf-8"
 	id="allmobilize"></script>
-<style type="text/css"></style>
+<style type="text/css">
+    .weui_switch
+    {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        position: relative;
+        width: 35px;
+        height: 20px;
+        border: 1px solid #DFDFDF;
+        outline: 0;
+        border-radius: 16px;
+        box-sizing: border-box;
+        background: #DFDFDF;
+        -webkit-rtl-ordering: logical;
+        -webkit-user-select: text;
+        cursor: auto;
+        display: inline-block;
+        text-align: start;
+    }
+    .weui_switch:before {
+        content: " ";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 34px;
+        height: 18px;
+        border-radius: 15px;
+        background-color: #FDFDFD;
+        -webkit-transition: -webkit-transform .3s;
+        transition: transform .3s;
+    }
+    .weui_switch:after {
+        content: " ";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 18px;
+        height: 18px;
+        border-radius: 13px;
+        background-color: #FFFFFF;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+        -webkit-transition: -webkit-transform .3s;
+        transition: transform .3s;
+    }
+    .weui_switch.checked {
+        border-color: #019875;
+        background-color: #019875;
+    }
+    .weui_switch.checked:before {
+        -webkit-transform: scale(0);
+        transform: scale(0);
+    }
+    .weui_switch.checked:after {
+        -webkit-transform: translateX(20px);
+        transform: translateX(20px);
+    }
+    </style>
 <meta content="no-siteapp" http-equiv="Cache-Control">
 <link media="handheld" rel="alternate">
 <!-- end 云适配 -->
@@ -54,7 +111,7 @@ var youdao_conv_id = 271546;
 				</ul>
 				<dl class="collapsible_menu">
 					<dt>
-						<span>Jerry&nbsp;</span> <span class="red dn" id="noticeDot-1"></span>
+						<span>${sessionScope.nickname}&nbsp;</span> <span class="red dn" id="noticeDot-1"></span>
 						<i></i>
 					</dt>
 					<dd style="display: none;">
@@ -66,11 +123,14 @@ var youdao_conv_id = 271546;
 					<dd style="display: none;">
 						<a href="delivery.action">我投递的职位</a>
 					</dd>
+					<dd style="display: none;">
+						<a href="mlist.action?page=1">我的推荐</a>
+					</dd>
 					<dd class="btm" style="display: none;">
-						<a href="">我的订阅</a>
+						<a href="certification.action">我的资格认证</a>
 					</dd>
 					<dd style="display: none;">
-						<a href="">帐号设置</a>
+						<a href="userupdatepassword.action">帐号设置</a>
 					</dd>
 					<dd class="logout" style="display: none;">
 						<a rel="nofollow" href="logout.action">退出</a>
@@ -93,6 +153,7 @@ var youdao_conv_id = 271546;
 							<span class="rename">重命名</span> | <a target="_blank"
 								href="preview.action">预览</a>
 						</div>
+						
 						<form class="fl dn" id="resumeNameForm">
 							<input type="text" value="${jianli.jianliname}" name="jianliname" id="jianliname"
 								class="nameEdit c9"> <a onclick="jianliname()">保存</a>
@@ -111,13 +172,20 @@ var youdao_conv_id = 271546;
 						<h2>基本信息 &nbsp;&nbsp;<span style="color:red">*</span></h2>
 						<span class="c_edit"></span>
 						<div class="basicShow">
-							<span>${jianli.name} | 
+							<span>
+							<c:if test="${not empty jianli.name}">
+							${jianli.name} | 
+							</c:if>
+							<c:if test="${empty jianli.name}">
+							姓名未知 | 
+							</c:if>
 							<c:if test="${empty jianli.sex}">
-							未知 | 
+							性别未知 | 
 							</c:if>
 							<c:if test="${not empty jianli.sex}">
 							${jianli.sex} | 
 							</c:if>
+							<c:if test="${not empty jianli.education}">
 								<c:if test="${jianli.education =='0'}">
 									其他 |
 								</c:if> <c:if test="${jianli.education =='1'}">
@@ -128,7 +196,13 @@ var youdao_conv_id = 271546;
 									硕士  |
 								</c:if> <c:if test="${jianli.education =='4'}">
 									博士 |
-								</c:if> <c:if test="${jianli.experience =='0'}">
+								</c:if> 
+							</c:if>
+							<c:if test="${empty jianli.education}">
+								学历未知 |
+							</c:if>
+							<c:if test="${not empty jianli.experience}">
+								<c:if test="${jianli.experience =='0'}">
 									应届毕业生
 								</c:if> <c:if test="${jianli.experience =='1'}">
 									1年工作经验
@@ -152,7 +226,25 @@ var youdao_conv_id = 271546;
 									10年工作经验
 								</c:if> <c:if test="${jianli.experience =='11'}">
 									10年以上工作经验
-								</c:if> <br> ${jianli.phone} | ${jianli.email}<br>
+								</c:if>
+							</c:if>
+							<c:if test="${empty jianli.experience}">
+								工作经验未知
+							</c:if>
+								 <br>
+								 <c:if test="${not empty jianli.phone}">
+								 ${jianli.phone} |
+								 </c:if>
+								 <c:if test="${empty jianli.phone}">
+								 电话未知 |
+								 </c:if>
+								  <c:if test="${not empty jianli.email}">
+								 ${jianli.email} 
+								 </c:if>
+								 <c:if test="${empty jianli.email}">
+								 邮箱未知 
+								 </c:if>
+								  <br>
 								${jianli.workstatus}
 							</span>
 							<div class="m_portrait">
@@ -209,7 +301,9 @@ var youdao_conv_id = 271546;
 										</tr>
 										<tr>
 											<td valign="top"><span class="redstar">*</span></td>
-											<td><c:if test="${jianli.education =='0'}">
+											<td>
+											<c:if test="${not empty jianli.education}">
+												<c:if test="${jianli.education =='0'}">
 													<input type="hidden" id="topDegree" value="其他"
 														name="topDegree">
 												</c:if> <c:if test="${jianli.education =='1'}">
@@ -244,7 +338,15 @@ var youdao_conv_id = 271546;
 													<input type="button" id="select_topDegree"
 														class="profile_select_190 profile_select_normal"
 														value="博士">
-												</c:if> <%-- <input type="button" value="${jianli.education}"
+												</c:if>
+											</c:if>
+											<c:if test="${empty jianli.education}">
+												<input type="hidden" id="topDegree" value="本科" name="topDegree">
+												<input type="button" id="select_topDegree"
+														class="profile_select_190 profile_select_normal"
+														value="本科">
+											</c:if>
+												 <%-- <input type="button" value="${jianli.education}"
 												id="select_topDegree"
 												class="profile_select_190 profile_select_normal"> --%>
 												<div class="boxUpDown boxUpDown_190 dn" id="box_topDegree"
@@ -258,7 +360,9 @@ var youdao_conv_id = 271546;
 													</ul>
 												</div></td>
 											<td valign="top"><span class="redstar">*</span></td>
-											<td><c:if test="${jianli.experience =='0'}">
+											<td>
+											<c:if test="${not empty jianli.experience}">
+												<c:if test="${jianli.experience =='0'}">
 													<input type="hidden" id="workyear" value="应届毕业生"
 														name="workyear">
 													<input type="button" value="应届毕业生" id="select_workyear"
@@ -328,7 +432,15 @@ var youdao_conv_id = 271546;
 														name="workyear">
 													<input type="button" value="10年以上" id="select_workyear"
 														class="profile_select_190 profile_select_normal">
-												</c:if> <%-- <input type="hidden" id="workyear" value="${jianli.experience}" name="workyear">
+												</c:if>
+											</c:if>
+											<c:if test="${empty jianli.experience}">
+												<input type="hidden" id="workyear" value="应届毕业生"
+														name="workyear">
+												<input type="button" value="应届毕业生" id="select_workyear"
+														class="profile_select_190 profile_select_normal">
+											</c:if>
+											 <%-- <input type="hidden" id="workyear" value="${jianli.experience}" name="workyear">
 											 <input type="button" value=""
 												id="select_workyear"
 												class="profile_select_190 profile_select_normal"> --%>
@@ -425,6 +537,9 @@ var youdao_conv_id = 271546;
 						<input type="hidden" id="nameVal" value="${jianli.name}">
 						<input type="hidden" id="genderVal" value="${jianli.sex}">
 
+						<c:if test="${empty jianli.education}">
+							<input type="hidden" id="topDegreeVal" value="选择学历">
+						</c:if>
 						<c:if test="${jianli.education =='0'}">
 							<input type="hidden" id="topDegreeVal" value="其他">
 						</c:if>
@@ -441,6 +556,9 @@ var youdao_conv_id = 271546;
 							<input type="hidden" id="topDegreeVal" value="博士">
 						</c:if>
 
+						<c:if test="${empty jianli.experience}">
+							<input type="hidden" id="workyearVal" value="选择经验">
+						</c:if>
 						<c:if test="${jianli.experience =='0'}">
 							<input type="hidden" id="workyearVal" value="应届毕业生">
 						</c:if>
@@ -735,14 +853,13 @@ var youdao_conv_id = 271546;
 											<td valign="top"><span class="redstar">&nbsp;</span></td>
 											<td colspan="2">
 											<c:if test="${empty jianli.workexperience}">
-												<pre><textarea class="projectDescription s_textarea" id="workexperience"
-														name="workexperience" placeholder="工作经历(可分条描述)">	</textarea></pre>
+												<textarea class="projectDescription s_textarea" id="workexperience" name="workexperience" placeholder="工作经历(可分条描述)"></textarea>
 												<div class="word_count">
 													你还可以输入 <span>500</span> 字
 												</div>
 											</c:if>
 											<c:if test="${not empty jianli.workexperience}">
-												<pre><textarea class="projectDescription s_textarea" id="workexperience" name="workexperience" placeholder="工作经历(可分条描述)">${jianli.workexperience}</textarea></pre>
+												<textarea class="projectDescription s_textarea" id="workexperience" name="workexperience" placeholder="工作经历(可分条描述)">${jianli.workexperience}</textarea>
 												<div class="word_count">
 													你还可以输入 <span>500</span> 字
 												</div>
@@ -817,7 +934,7 @@ var youdao_conv_id = 271546;
 														class="profile_select_139 profile_select_normal select_schoolYearStart">
 												</c:if>
 													<div class="box_schoolYearStart boxUpDown boxUpDown_139 dn"
-														style="display: none;">
+														style="display: none;margin-left:16px">
 														<ul>
 															<li>2019</li>
 															<li>2018</li>
@@ -974,7 +1091,7 @@ var youdao_conv_id = 271546;
 											<td colspan="2">
 												<textarea class="selfDescription s_textarea" name="selfDescription" id="selfDescription" placeholder="请输入自我介绍">${jianli.selfdescription}</textarea>
 												<div class="word_count">
-													你还可以输入 <span>500</span> 字
+													
 												</div>
 											</td>
 										</c:if>
@@ -982,7 +1099,7 @@ var youdao_conv_id = 271546;
 											<td colspan="2">
 												<textarea class="selfDescription s_textarea" name="selfDescription" id="selfDescription" placeholder="请输入自我介绍"></textarea>
 												<div class="word_count">
-													你还可以输入 <span>500</span> 字
+													
 												</div>
 											</td>
 										</c:if>
@@ -1006,32 +1123,52 @@ var youdao_conv_id = 271546;
 				<div class="content_r">
 					<div class="mycenterR" id="myInfo">
 						<h2>我的信息</h2>
-						<a target="_blank" href="collections.html">我收藏的职位</a> <br> <a
-							target="_blank" href="subscribe.html">我订阅的职位</a>
+						<a target="_blank" href="jianli.action">我的简历</a> <br> 
+						<a target="_blank" href="collections.action">我收藏的职位</a> <br> 
+						<a target="_blank" href="delivery.action">我投递的职位</a> <br> 
+						<a target="_blank" href="mlist.action?page=1">我的推荐</a> <br> 
+						<a target="_blank" href="certification.action">我的资格认证</a> <br> 
 					</div>
 					<!--end #myInfo-->
 
-					<div class="mycenterR" id="myResume">
+					<!-- <div class="mycenterR" id="myResume">
 						<h2>
 							我的附件简历 <a title="上传附件简历" href="#uploadFile"
 								class="inline cboxElement">上传简历</a>
 						</h2>
 						<div class="resumeUploadDiv">暂无附件简历</div>
-					</div>
+					</div> -->
 					<!--end #myResume-->
 
 					<div class="mycenterR" id="resumeSet">
 						<h2>
-							投递简历设置 <span>修改设置</span>
+							简历状态 
+							<c:if test="${jianli.status=='0'}">
+								<span id="zhuangtai">(未公开)</span>
+							</c:if>
+							<c:if test="${jianli.status=='1'}">
+								<span id="zhuangtai">(已公开)</span>
+							</c:if>
 						</h2>
 						<!-- -1 (0=附件， 1=在线， 其他=未设置) -->
-						<div class="noSet set0 dn">
+						<!-- <div class="set0">
 							默认使用<span>附件简历</span>进行投递
 						</div>
 						<div class="noSet set1 dn">
 							默认使用<span>在线简历</span>进行投递
-						</div>
-						<div class="noSet">暂未设置默认投递简历</div>
+						</div> -->
+						<input type='checkbox' class='weui_switch'>
+						<c:if test="${jianli.status=='1'}">
+							<div><br>
+								<div id="tishi" class="noSet">请注意您的邮箱,可能有面试哦</div>
+							</div>
+						</c:if>
+						<c:if test="${jianli.status=='0'}">
+							<div><br>
+								<div id="tishi" class="noSet">公开简历信息后师聘可以帮您找工作</div>
+							</div>
+						</c:if>
+						
 						<input type="hidden" class="defaultResume" value="-1">
 						<form class="dn" id="resumeSetForm">
 							<label><input type="radio" value="1" class="resume1"
@@ -1045,10 +1182,10 @@ var youdao_conv_id = 271546;
 					</div>
 					<!--end #resumeSet-->
 
-					<div class="mycenterR" id="myShare">
+					<!-- <div class="mycenterR" id="myShare">
 						<h2>当前每日投递量：10个</h2>
 						<a target="_blank" href="h/share/invite.html">邀请好友，提升投递量</a>
-					</div>
+					</div> -->
 					<!--end #myShare-->
 
 
@@ -1202,31 +1339,7 @@ var youdao_conv_id = 271546;
 						href="javascript:;"></a>
 				</div>
 			</div>
-			<!-- <script>
-$(function(){
-	$.ajax({
-        url:ctx+"/mycenter/showQRCode",
-        type:"GET",
-        async:false
-   	}).done(function(data){
-        if(data.success){
-             $('#qr_cloud_resume img').attr("src",data.content);
-        }
-   	}); 
-	var sessionId = "resumeQR"+314873;
-	if(!$.cookie(sessionId)){
-		$.cookie(sessionId, 0, {expires: 1});
-	}
-	if($.cookie(sessionId) &amp;&amp; $.cookie(sessionId) != 5){
-		$('#qr_cloud_resume').removeClass('dn');
-	}
-	$('#qr_cloud_resume .close').click(function(){
-		$('#qr_cloud_resume').fadeOut(200);
-		resumeQR = parseInt($.cookie(sessionId)) + 1;
-		$.cookie(sessionId, resumeQR, {expires: 1});
-	});
-});
-</script> -->
+
 			<div class="clear"></div>
 			<input type="hidden" value="97fd449bcb294153a671f8fe6f4ba655"
 				id="resubmitToken"> <a rel="nofollow" title="回到顶部"
@@ -1237,67 +1350,19 @@ $(function(){
 	<!-- end #body -->
 	<div id="footer">
 		<div class="wrapper">
-			<a rel="nofollow" target="_blank" href="h/about.html">联系我们</a> <a
-				target="_blank" href="h/af/zhaopin.html">互联网公司导航</a> <a
-				rel="nofollow" target="_blank" href="http://e.weibo.com/lagou720">师聘微博</a>
-			<a rel="nofollow" href="javascript:void(0)" class="footer_qr">师聘微信<i></i></a>
+			<a  target="_blank" rel="nofollow">联系我们</a> <a
+				 target="_blank">互联网公司导航</a> <a
+				 target="_blank" rel="nofollow">师聘微博</a>
+			<a class="footer_qr" href="javascript:void(0)" rel="nofollow">师聘微信<i></i></a>
 			<div class="copyright">
-				&copy;2017-2019 师聘 <a
-					href="http://www.miitbeian.gov.cn/state/outPortal/loginPortal.action"
-					target="_blank">京ICP备14023790号-2</a>
+				&copy;2017-2019 师聘 <a target="_blank">京ICP备14023790号-2</a>
 			</div>
 		</div>
 	</div>
 
 	<script src="style/js/core.min.js" type="text/javascript"></script>
 	<script src="style/js/popup.min.js" type="text/javascript"></script>
-
-	<!--  -->
-
-<!-- 	<script type="text/javascript">
-$(function(){
-	$('#noticeDot-1').hide();
-	$('#noticeTip a.closeNT').click(function(){
-		$(this).parent().hide();
-	});
-});
-var index = Math.floor(Math.random() * 2);
-var ipArray = new Array('42.62.79.226','42.62.79.227');
-var url = "ws://" + ipArray[index] + ":18080/wsServlet?code=314873";
-var CallCenter = {
-		init:function(url){
-			var _websocket = new WebSocket(url);
-			_websocket.onopen = function(evt) {
-				console.log("Connected to WebSocket server.");
-			};
-			_websocket.onclose = function(evt) {
-				console.log("Disconnected");
-			};
-			_websocket.onmessage = function(evt) {
-				//alert(evt.data);
-				var notice = jQuery.parseJSON(evt.data);
-				if(notice.status[0] == 0){
-					$('#noticeDot-0').hide();
-					$('#noticeTip').hide();
-					$('#noticeNo').text('').show().parent('a').attr('href',ctx+'/mycenter/delivery.html');
-					$('#noticeNoPage').text('').show().parent('a').attr('href',ctx+'/mycenter/delivery.html');
-				}else{
-					$('#noticeDot-0').show();
-					$('#noticeTip strong').text(notice.status[0]);
-					$('#noticeTip').show();
-					$('#noticeNo').text('('+notice.status[0]+')').show().parent('a').attr('href',ctx+'/mycenter/delivery.html');
-					$('#noticeNoPage').text(' ('+notice.status[0]+')').show().parent('a').attr('href',ctx+'/mycenter/delivery.html');
-				}
-				$('#noticeDot-1').hide();
-			};
-			_websocket.onerror = function(evt) {
-				console.log('Error occured: ' + evt);
-			};
-		}
-};
-CallCenter.init(url);
-</script> -->
-
+	
 	<div id="cboxOverlay" style="display: none;"></div>
 	<div id="colorbox" class="" role="dialog" tabindex="-1"
 		style="display: none;">
@@ -1462,28 +1527,6 @@ CallCenter.init(url);
 		    })  
 			 return true;
 		 }
-		 /* alert(2)
-		 if(flag==true){
-			 var formData = new FormData(); 
-		     formData.append('schoolname', schoolName);
-		     formData.append('specialty', professionalName);
-		     formData.append('yearstart', schoolYearStart);
-		     formData.append('yearend', schoolYearEnd);
-		     $.ajax({
-		        url: '/uploadjianli.action',
-		        type: 'POST',
-		        data: formData, 
-		        processData: false, // 告诉jQuery不要去处理发送的数据
-		        contentType: false, // 告诉jQuery不要去设置Content-Type请求头
-		        success: function (data) {
-		        	document.getElementById("quxiao").click()
-		        	alert("更新教育背景成功")
-		        },
-		        error: function (data) {
-		        	alert("更新教育背景失败")
-		        }
-		    })  
-		 }  */
 	}
 function jibeninfo(){
 	 var name = document.getElementById("name").value.replace(/(^\s*)|(\s*$)/g, "");
@@ -1496,7 +1539,7 @@ function jibeninfo(){
 	 var image = document.getElementById('image').value.replace(/(^\s*)|(\s*$)/g, "");
 	 //alert(name+sex+topDegree+workyear+tel+email+currentState)
 	 if(name==null||name==''||sex==null||sex==''||topDegree==null||topDegree==''||workyear==null||workyear==''||
-			 tel==null||tel==''||email==null||email==''||currentState==null||currentState==''){
+			 tel==null||tel==''||email==null||email==''){
 		 alert("请输入基本信息")
 	 }else{
 		 var formData = new FormData(); 
@@ -1642,9 +1685,11 @@ function quxiao3() {
 	document.getElementById('spansalary').style.display = "none";   
 }
 </script>
+<script type="application/javascript" src="style/js/zepto.min.js"></script>
 </body>
 <script type="text/javascript">
 document.ready=function(){
+	   var status = "${jianli.status}";
 	   var positionnature = "${jianli.positionnature}";
 	   var workaddress = "${jianli.workaddress}";
 	   var workexperience = "${jianli.workexperience}";
@@ -1678,6 +1723,71 @@ document.ready=function(){
 				document.getElementById("radio1").className = "";
 			}
 	   }
+	   if(status=="0"){
+		   $('.weui_switch').removeClass('checked');
+	   }
+	   if(status=="1"){
+		   $('.weui_switch').addClass('checked');
+	   }
 	}
+</script>
+<script type="application/javascript">
+    $(function(){
+        $('.weui_switch').click(function(){
+//            $(this).toggleClass('checked');  //只用这句的话，只可以控制样式。很方便，但是不能进行其他操作
+            if($(this).hasClass('checked')){
+                $(this).removeClass('checked');
+                //console.log('关闭');
+				//alert(0)
+				var formData = new FormData(); 
+		        formData.append('status', "0");
+				$.ajax({
+		        url: '/uploadjianlistatus.action',
+		        type: 'POST',
+		        data: formData, 
+		        processData: false, // 告诉jQuery不要去处理发送的数据
+		        contentType: false, // 告诉jQuery不要去设置Content-Type请求头
+		        success: function (data) {
+		        	if(data=="1"){
+		        		document.getElementById("tishi").innerHTML="公开简历信息后师聘可以帮您找工作";
+		        		document.getElementById('zhuangtai').innerText="(未公开)";
+		        	}
+		        	if(data=="0"){
+		        		 window.location.href = "login.action"; 
+		        	}
+		        },
+		        error: function (data) {	
+		        	 window.location.href = "login.action"; 
+		        }
+		    })  
+				
+            }else{
+                $(this).addClass('checked');
+                //console.log('打开');
+				//alert(1)
+				var formData = new FormData(); 
+		        formData.append('status', "1");
+				$.ajax({
+		        url: '/uploadjianlistatus.action',
+		        type: 'POST',
+		        data: formData, 
+		        processData: false, // 告诉jQuery不要去处理发送的数据
+		        contentType: false, // 告诉jQuery不要去设置Content-Type请求头
+		        success: function (data) {
+		        	if(data=="1"){
+		        		document.getElementById("tishi").innerHTML="请注意您的邮箱,可能有面试哦";
+		        		document.getElementById('zhuangtai').innerText="(已公开)";
+		        	}
+		        	if(data=="0"){
+		        		 window.location.href = "login.action"; 
+		        	}
+		        },
+		        error: function (data) {
+		        	 window.location.href = "login.action"; 
+		        }
+		    })  
+            }
+        });
+    });
 </script>
 </html>

@@ -13,14 +13,9 @@
 <link media="handheld" rel="alternate">
 <!-- end 云适配 -->
 <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-<title>平潭协创进出口贸易有限公司-师聘网-最专业的互联网招聘平台</title>
+<title>${company.companyname}-师聘网-最专业的互联网招聘平台</title>
 <meta content="23635710066417756375" property="qc:admins">
-<meta name="description"
-	content="平潭协创进出口贸易有限公司 福建平潭协创进出口贸易有限公司 上海 移动互联网 天使轮 150-500人 测试的发打发打发大范德萨发">
-<meta name="keywords"
-	content="平潭协创进出口贸易有限公司 福建平潭协创进出口贸易有限公司 上海 移动互联网 天使轮 150-500人 测试的发打发打发大范德萨发">
 <meta content="QIQ6KC1oZ6" name="baidu-site-verification">
-
 <!-- <div class="web_root"  style="display:none">http://www.lagou.com</div> -->
 <script type="text/javascript">
 	var ctx = "http://www.lagou.com";
@@ -57,7 +52,7 @@
 				</ul>
 				<dl class="collapsible_menu">
 					<dt>
-						<span>Jerry&nbsp;</span> <span class="red dn" id="noticeDot-1"></span>
+						<span>${sessionScope.nickname}&nbsp;</span> <span class="red dn" id="noticeDot-1"></span>
 						<i></i>
 					</dt>
 					<dd style="display: none;">
@@ -69,11 +64,14 @@
 					<dd style="display: none;">
 						<a href="delivery.action">我投递的职位</a>
 					</dd>
+					<dd style="display: none;">
+						<a href="mlist.action?page=1">我的推荐</a>
+					</dd>
 					<dd class="btm" style="display: none;">
-						<a href="">我的订阅</a>
+						<a href="certification.action">我的资格认证</a>
 					</dd>
 					<dd style="display: none;">
-						<a href="">帐号设置</a>
+						<a href="userupdatepassword.action">帐号设置</a>
 					</dd>
 					<dd class="logout" style="display: none;">
 						<a rel="nofollow" href="logout.action">退出</a>

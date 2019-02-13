@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -45,7 +47,7 @@
 	<div id="body">
 		<div id="header">
 			<div class="wrapper">
-				<a class="logo" href="h/"> <img width="229" height="43"
+				<a class="logo" href=""> <img width="229" height="43"
 					alt="师聘招聘-专注互联网招聘" src="style/images/logo.png">
 				</a>
 				<ul class="reset" id="navheader">
@@ -55,7 +57,7 @@
 				</ul>
 				<dl class="collapsible_menu">
 					<dt>
-						<span>Jerry&nbsp;</span> <span class="red dn" id="noticeDot-1"></span>
+						<span>${sessionScope.nickname}&nbsp;</span> <span class="red dn" id="noticeDot-1"></span>
 						<i></i>
 					</dt>
 					<dd style="display: none;">
@@ -67,11 +69,14 @@
 					<dd style="display: none;">
 						<a href="delivery.action">我投递的职位</a>
 					</dd>
+					<dd style="display: none;">
+						<a href="mlist.action?page=1">我的推荐</a>
+					</dd>
 					<dd class="btm" style="display: none;">
-						<a href="">我的订阅</a>
+						<a href="certification.action">我的资格认证</a>
 					</dd>
 					<dd style="display: none;">
-						<a href="">帐号设置</a>
+						<a href="userupdatepassword.action">帐号设置</a>
 					</dd>
 					<dd class="logout" style="display: none;">
 						<a rel="nofollow" href="logout.action">退出</a>
@@ -98,63 +103,80 @@
 						<dd>
 							<form id="collectionsForm">
 								<ul class="reset my_collections">
-									<li data-id="133340"><a title="携程旅行网" target="_blank"
-										href="companydetail.action"> <img alt="携程旅行网"
-											src="style/images/ff808081441c19bf01441f9a47190b3a.png">
+								<c:if test="${empty listPosandcom}">
+									<br>
+									<div class="filter_tip">
+										您 &nbsp; &nbsp;<span>没有&nbsp; &nbsp;</span>收藏职位。 <span> &nbsp;</span>&nbsp;
+									</div>
+								</c:if>
+								<c:forEach items="${listPosandcom}" var="listPosandcom">
+									<li><a title="${listPosandcom.companyname}" target="_blank"
+										href="companydetail.action?companyid=${listPosandcom.companyid}"> 
+										<c:if test="${empty listPosandcom.companylogo}">
+											<img alt="${listPosandcom.companyname}" src="style/images/logo_default.png">
+										</c:if>
+										<c:if test="${not empty listPosandcom.companylogo}">
+											<img alt="${listPosandcom.companyname}" src="/pic/${listPosandcom.companylogo}">
+										</c:if>
 									</a>
 										<div class="co_item">
-											<h2 title="酒店业务助理">
-												<a target="_blank" href="jobdetail.action"> <em>酒店业务助理</em>
-													<span>（4k以上）</span>
+											<h2 title="${listPosandcom.positionname}">
+												<a target="_blank" href="jobdetail.action?positionid=${listPosandcom.positionid}&companyid=${listPosandcom.companyid}"> <em>${listPosandcom.positionname}</em>
+													<span>（${listPosandcom.salarymin}k-${listPosandcom.salarymax}k）</span>
 												</a>
 											</h2>
-											<span class="co_time">发布时间：2014-06-27 09:37</span>
-											<div class="co_cate">携程旅行网 / 北京 / 1-3年 / 本科</div>
-											<span class="co_youhuo c7">出勤福利</span> <a
+											<span class="co_time">发布时间：<fmt:formatDate
+											value="${listPosandcom.releasetime}"
+											pattern="yyyy-MM-dd HH:mm" /></span>
+											<div class="co_cate">${listPosandcom.companyname} / ${listPosandcom.workaddress} /
+											 <c:if test="${listPosandcom.experience =='-1'}">
+												不限 /
+											</c:if> <c:if test="${listPosandcom.experience =='0'}">
+												应届毕业生 /
+											</c:if> <c:if test="${listPosandcom.experience =='1'}">
+												至少1年 /
+											</c:if> <c:if test="${listPosandcom.experience =='2'}">
+												至少2年 /
+											</c:if> <c:if test="${listPosandcom.experience =='3'}">
+												至少3年 /
+											</c:if> <c:if test="${listPosandcom.experience =='4'}">
+												至少4年 /
+											</c:if> <c:if test="${listPosandcom.experience =='5'}">
+												至少5年 /
+											</c:if> <c:if test="${listPosandcom.experience =='6'}">
+												至少6年 /
+											</c:if> <c:if test="${listPosandcom.experience =='7'}">
+												至少7年 /
+											</c:if> <c:if test="${listPosandcom.experience =='8'}">
+												至少8年 /
+											</c:if> <c:if test="${listPosandcom.experience =='9'}">
+												至少9年 /
+											</c:if> <c:if test="${listPosandcom.experience =='10'}">
+												至少10年 /
+											</c:if> <c:if test="${listPosandcom.experience =='11'}">
+												10年及以上 /
+											</c:if>
+											<c:if  test="${listPosandcom.education =='0'}">
+												不限
+											</c:if> <c:if test="${listPosandcom.education =='1'}">
+												大专 
+											</c:if> <c:if test="${listPosandcom.education =='2'}">
+												本科 
+											</c:if> <c:if test="${listPosandcom.education =='3'}">
+												硕士 
+											</c:if> <c:if test="${listPosandcom.education =='4'}">
+												博士
+											</c:if>
+											</div>
+											<span class="co_youhuo c7">${listPosandcom.positionadvantage}</span> <a
 												class="collection_link" target="_blank"
-												href="jobdetail.action">投个简历</a> <i></i> <a
+												href="jobdetail.action?positionid=${listPosandcom.positionid}&companyid=${listPosandcom.companyid}">投个简历</a> <i></i> <a
 												class="collectionCancel collection_link collected"
-												href="javascript:;"> 取消收藏 <span>已取消收藏</span>
+												href="javascript:void(0);" onclick="concelcollection(${userid},${listPosandcom.positionid});" title="取消收藏"> 取消收藏 
 											</a>
-										</div></li>
-									<li data-id="148886"><a title="蘑菇街" target="_blank"
-										href="h/c/108.html"> <img alt="蘑菇街"
-											src="style/images/ff80808142a8df050142b1674c596676.jpg">
-									</a>
-										<div class="co_item">
-											<h2 title="PHP">
-												<a target="_blank" href="h/jobs/148886.html"> <em>PHP</em>
-													<span>（15k-30k）</span>
-												</a>
-											</h2>
-											<span class="co_time">发布时间：2014-07-01 09:41</span>
-											<div class="co_cate">蘑菇街 / 杭州 / 不限 / 本科</div>
-											<span class="co_youhuo c7">有技术挑战、有成长机会、有漂亮妹子</span> <a
-												class="collection_link" target="_blank"
-												href="h/jobs/148886.html">投个简历</a> <i></i> <a
-												class="collectionCancel collection_link collected"
-												href="javascript:;"> 取消收藏 <span>已取消收藏</span>
-											</a>
-										</div></li>
-									<li data-id="148519"><a title="搜狗" target="_blank"
-										href="h/c/1537.html"> <img alt="搜狗"
-											src="style/images/ff80808142e0968f0142e0d41f1205f2.jpg">
-									</a>
-										<div class="co_item">
-											<h2 title="商家运营">
-												<a target="_blank" href="h/jobs/148519.html"> <em>商家运营</em>
-													<span>（8k-16k）</span>
-												</a>
-											</h2>
-											<span class="co_time">发布时间：2014-07-01 09:21</span>
-											<div class="co_cate">搜狗 / 北京 / 1-3年 / 本科</div>
-											<span class="co_youhuo c7">领先品牌，全新产品，急聘电商运营人才。</span> <a
-												class="collection_link" target="_blank"
-												href="h/jobs/148519.html">投个简历</a> <i></i> <a
-												class="collectionCancel collection_link collected"
-												href="javascript:;"> 取消收藏 <span>已取消收藏</span>
-											</a>
-										</div></li>
+										</div>
+									</li>
+								</c:forEach>
 								</ul>
 							</form>
 						</dd>
@@ -163,8 +185,11 @@
 				<div class="content_r">
 					<div class="mycenterR" id="myInfo">
 						<h2>我的信息</h2>
-						<a href="collections.html">我收藏的职位</a> <br> <a target="_blank"
-							href="subscribe.html">我订阅的职位</a>
+						<a target="_blank" href="jianli.action">我的简历</a> <br> 
+						<a target="_blank" href="collections.action">我收藏的职位</a> <br> 
+						<a target="_blank" href="delivery.action">我投递的职位</a> <br> 
+						<a target="_blank" href="mlist.action?page=1">我的推荐</a> <br> 
+						<a target="_blank" href="certification.action">我的资格认证</a> <br> 
 					</div>
 					<!--end #myInfo-->
 					<div class="greybg qrcode mt20">
@@ -195,14 +220,12 @@
 	<!-- end #body -->
 	<div id="footer">
 		<div class="wrapper">
-			<a rel="nofollow" target="_blank" href="h/about.html">联系我们</a> <a
-				target="_blank" href="h/af/zhaopin.html">互联网公司导航</a> <a
-				rel="nofollow" target="_blank" href="http://e.weibo.com/lagou720">师聘微博</a>
-			<a rel="nofollow" href="javascript:void(0)" class="footer_qr">师聘微信<i></i></a>
+			<a  target="_blank" rel="nofollow">联系我们</a> <a
+				 target="_blank">互联网公司导航</a> <a
+				 target="_blank" rel="nofollow">师聘微博</a>
+			<a class="footer_qr" href="javascript:void(0)" rel="nofollow">师聘微信<i></i></a>
 			<div class="copyright">
-				&copy;2017-2019 师聘 <a
-					href="http://www.miitbeian.gov.cn/state/outPortal/loginPortal.action"
-					target="_blank">京ICP备14023790号-2</a>
+				&copy;2017-2019 师聘 <a target="_blank">京ICP备14023790号-2</a>
 			</div>
 		</div>
 	</div>
@@ -293,5 +316,24 @@
 		<div
 			style="position: absolute; width: 9999px; visibility: hidden; display: none;"></div>
 	</div>
+<script type="text/javascript">
+function concelcollection(userid,positionid) {
+	$.ajax({
+		type : "post",
+		url : "concelcollection.action",
+		dateType : "text",
+		data : {
+			userid : userid,
+			positionid : positionid
+		},
+		success : function(data) {
+			window.location.reload();
+		},
+		error : function() {
+			window.location.reload();
+		}
+	});
+}
+</script>
 </body>
 </html>

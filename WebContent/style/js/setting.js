@@ -453,7 +453,7 @@ $(function(){
 	$('#oldpassword').focus(function(){
 		$('#updatePwd_beError').hide();
 	})
-	$('#updatePswForm').validate({
+	$('#updatePswForm1').validate({
 		/*onkeyup: false,
     	focusCleanup:false,*/
         rules: {
@@ -485,29 +485,29 @@ $(function(){
     	   	}
     	},
     	submitHandler:function(form){
+    		/*form.submit();*/
     		var oldpassword = $('#oldpassword').val();
     		var newpassword = $('#newpassword').val();
     		var comfirmpassword = $('#comfirmpassword').val();
     		var resubmitToken = $('#resubmitToken').val();
-    		$.ajax({
-    			url:ctx+'/user/updatePwd.json',
-    			type:'POST',
+    		alert(oldpassword)
+    		/*$.ajax({
+    			url:"cupdatepassword.action",
+    			type:"POST",
     			data:{
     				oldPassword:oldpassword,
     				newPassword:newpassword,
     				newPassword2:comfirmpassword,
     				resubmitToken:resubmitToken
     			},
-            	dataType:'json'
+            	dataType:"text",
     		}).done(function(result){
-				$('#resubmitToken').val(result.resubmitToken);
-    			if(result.success){
-    				$.colorbox({inline:true, href:$("#updatePassword"),title:"修改密码成功"});
-    				setCountdown(4,'updatePassword h4 span',ctx+"/user/logout.html");	//调用倒计时
+    			if(result=='1'){
+    				alert(1)
     			}else{
-    				$('#updatePwd_beError').html(result.msg).show();
+    				alert(2)
     			}
-    		});
+    		});*/
         }  
     });
 	

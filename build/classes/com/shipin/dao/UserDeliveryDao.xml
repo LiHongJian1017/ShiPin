@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shipin.dao.UserDeliveryDao">
+	<select id="delivery" parameterType="Map" resultType="com.shipin.pojo.Posandcomanddel">
+		select position.positionid positionid,position.companyid companyid,company.companyname companyname,delivery.deliveryid deliveryid,delivery.jianliname jianliname,delivery.status status,delivery.updatetime updatetime,position.positionname positionname,position.workaddress workaddress,position.salarymin salarymin,position.salarymax salarymax from delivery JOIN position ON delivery.positionid=position.positionid JOIN company ON position.companyid=company.companyid
+		<where>
+		<if test="status != null">
+		and  delivery.status=#{status,jdbcType=INTEGER}
+		</if>
+		<if test="userid != null">
+		and  delivery.userid=#{userid,jdbcType=INTEGER}
+		</if>
+	</where>
+	</select>
+	
+	<select id="deliverypreview" parameterType="int" resultType="com.shipin.pojo.Delivery">
+		select * from delivery where deliveryid=#{deliveryid,jdbcType=INTEGER}
+	</select>
+</mapper>

@@ -44,5 +44,15 @@ public class CompanyDeliveryServiceIpl implements CompanyDeliveryService{
 		// TODO Auto-generated method stub
 		return companyDeliveryDao.counttiaojian(map);
 	}
+	@Override
+	public void deliveryalloffline(Map newmap) {
+		// TODO Auto-generated method stub
+		 companyDeliveryDao.deliveryalloffline(newmap);
+	}
+	@Override
+	public void deletecollectionposition(Map newmap) {
+		// TODO Auto-generated method stub
+		companyDeliveryDao.deletecollectionposition(newmap);
+	}
 
 }

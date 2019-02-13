@@ -44,7 +44,7 @@ public class PosandcomServiceIpl implements PosandcomService{
 		return posandcomDao.selectcollection(map);
 	}
 	@Override
-	public Lianheposition selectlianheposition(int companyid) {
+	public List<Lianheposition> selectlianheposition(int companyid) {
 		// TODO Auto-generated method stub
 		return posandcomDao.selectlianheposition(companyid);
 	}
@@ -93,5 +93,26 @@ public class PosandcomServiceIpl implements PosandcomService{
 		// TODO Auto-generated method stub
 		return posandcomDao.selectremen();
 	}
+	@Override
+	public List<Posandcom> selectcollections(int userid) {
+		// TODO Auto-generated method stub
+		return posandcomDao.selectcollections(userid);
+	}
+	@Override
+	public List<Posandcom> mlistjob(Map map) {
+		// TODO Auto-generated method stub
+		return posandcomDao.mlistjob(map);
+	}
+	@Override
+	public int mlistjobcount(Map map) {
+		// TODO Auto-generated method stub
+		return posandcomDao.mlistjobcount(map);
+	}
+	@Override
+	public List<Posandcom> mlistjobright(Map newmap) {
+		// TODO Auto-generated method stub
+		return posandcomDao.mlistjobright(newmap);
+	}
+	
 
 }

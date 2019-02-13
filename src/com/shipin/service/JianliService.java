@@ -15,4 +15,6 @@ public interface JianliService {
 
 	void delivery(Delivery delivery);
 
+	void uploadjianlistatus(Map map);
+
 }

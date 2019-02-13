@@ -117,7 +117,12 @@
 				<h2>认证资质</h2>
 				<div class="experienceShow">
 					<div class="expectShow">
+					<c:if test="${empty delivery.certification}">
+						无资格认证
+					</c:if>
+					<c:if test="${not empty delivery.certification}">
 						${delivery.certification}
+					</c:if>
 					</div>
 				</div>
 				<!--end .experienceShow-->

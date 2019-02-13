@@ -26,6 +26,12 @@ from position join company on position.companyid=company.companyid where status=
 	<select id="select_position" parameterType="int" resultType="com.shipin.pojo.Position">
 		select * from position where companyid=#{companyid,jdbcType=INTEGER} and status=1
 	</select>
+	<select id="selectcollections" parameterType="int" resultType="com.shipin.pojo.Posandcom">
+		select position.positionid positionid,position.companyid companyid,
+		position.positionname positionname,position.salarymin salarymin,position.salarymax salarymax,position.workaddress workaddress,position.experience experience,position.education education,position.positionadvantage positionadvantage,position.releasetime releasetime,
+		company.companyname companyname,company.companylogo companylogo from position join company on position.companyid=company.companyid  where position.status=1 and position.positionid in
+	 (select positionid from collection where collection.userid=#{userid})
+	</select>
 	<insert id="collection" parameterType="Map">
 		insert into collection (userid, positionid,updatetime) values (#{userid}, #{positionid}, #{updatetime})
 	</insert>
@@ -97,6 +103,68 @@ from position join company on position.companyid=company.companyid where status=
 		and status=1 
 	</where>
 	</select>
+	
+	<select id="mlistjob" parameterType="Map" resultType="com.shipin.pojo.Posandcom">
+		select position.positionid positionid,position.positionname positionname,position.workaddress workaddress,position.salarymin salarymin,position.salarymax salarymax,position.education education,position.experience experience,position.positionadvantage positionadvantage,position.releasetime releasetime,
+		position.companyid companyid,company.companyname companyname,company.companytype companytype,company.companysize companysize,company.companyceoname companyceoname,company.companyceoname companyceoname,company.companylogo companylogo,company.companytag1 companytag1,company.companytag2 companytag2,company.companytag3 companytag3,company.companytag4 companytag4,company.companytag5 companytag5 
+		from position join company on position.companyid=company.companyid 
+	<where>
+		<if test="positionname != null and positionname != ''">
+		and position.positionname like '%${positionname}%'
+		</if>
+		<if test="workaddress != null and workaddress != ''">
+		and position.workaddress =#{workaddress}
+		</if>
+		<if test="salarymin != null and salarymin != ''">
+		and <![CDATA[CONVERT(position.salarymin,SIGNED)>= ]]> #{salarymin}
+		</if>
+		<if test="salarymax != null and salarymax != ''">
+		and <![CDATA[CONVERT(position.salarymax,SIGNED)<= ]]> #{salarymax}
+		</if>
+		<if test="experience != null and experience != ''">
+		and <![CDATA[CONVERT(position.experience,SIGNED)<= ]]> #{experience}
+		</if>
+		<if test="education != null and education != ''">
+		and <![CDATA[CONVERT(position.education,SIGNED)<= ]]> #{education}
+		</if>
+		<if test="positionnature != null and positionnature != ''">
+		and position.positionnature =#{positionnature}
+		</if>
+		and status=1 
+		and position.positionid not in (select delivery.positionid from delivery where userid=#{userid})
+	</where>
+	limit #{start},9
+	</select>
+	
+	<select id="mlistjobcount" parameterType="Map" resultType="int">
+		select count(*)
+		from position join company on position.companyid=company.companyid 
+	<where>
+		<if test="positionname != null and positionname != ''">
+		and position.positionname like '%${positionname}%'
+		</if>
+		<if test="workaddress != null and workaddress != ''">
+		and position.workaddress =#{workaddress}
+		</if>
+		<if test="salarymin != null and salarymin != ''">
+		and <![CDATA[CONVERT(position.salarymin,SIGNED)>= ]]> #{salarymin}
+		</if>
+		<if test="salarymax != null and salarymax != ''">
+		and <![CDATA[CONVERT(position.salarymax,SIGNED)<= ]]> #{salarymax}
+		</if>
+		<if test="experience != null and experience != ''">
+		and <![CDATA[CONVERT(position.experience,SIGNED)<= ]]> #{experience}
+		</if>
+		<if test="education != null and education != ''">
+		and <![CDATA[CONVERT(position.education,SIGNED)<= ]]> #{education}
+		</if>
+		<if test="positionnature != null and positionnature != ''">
+		and position.positionnature =#{positionnature}
+		</if>
+		and status=1 
+		and position.positionid not in (select delivery.positionid from delivery where userid=#{userid})
+	</where>
+	</select>
 	<update id="addone" parameterType="int">
 		update position 
 		<!-- set标签作用:
@@ -120,6 +188,10 @@ from position join company on position.companyid=company.companyid where status=
 		and  company.companysize =#{companysize}
 		</if>
 		and user.status=1 
+		and company.companyname  is  not  null
+		and company.companytype  is  not  null
+		and company.companyaddress  is  not  null
+		and company.companysize  is  not  null
 	</where>
 	limit #{start},9
 	</select>
@@ -137,7 +209,43 @@ from position join company on position.companyid=company.companyid where status=
 		and  company.companysize =#{companysize}
 		</if>
 		and user.status=1 
+		and company.companyname is  not  null
+		and company.companytype  is  not  null
+		and company.companyaddress  is  not  null
+		and company.companysize  is  not  null
 	</where>
+	</select>
+	
+	<select id="mlistjobright" parameterType="Map" resultType="com.shipin.pojo.Posandcom">
+		select position.positionid positionid,position.positionname positionname,position.workaddress workaddress,position.salarymin salarymin,position.salarymax salarymax,position.education education,position.experience experience,position.positionadvantage positionadvantage,position.releasetime releasetime,
+		position.companyid companyid,company.companyname companyname,company.companytype companytype,company.companysize companysize,company.companyceoname companyceoname,company.companyceoname companyceoname,company.companylogo companylogo,company.companytag1 companytag1,company.companytag2 companytag2,company.companytag3 companytag3,company.companytag4 companytag4,company.companytag5 companytag5 
+		from position join company on position.companyid=company.companyid 
+	<where>
+		<if test="positionname != null and positionname != ''">
+		and position.positionname like '%${positionname}%'
+		</if>
+		<if test="workaddress != null and workaddress != ''">
+		and position.workaddress =#{workaddress}
+		</if>
+		<if test="salarymin != null and salarymin != ''">
+		and <![CDATA[CONVERT(position.salarymin,SIGNED)>= ]]> #{salarymin}
+		</if>
+		<if test="salarymax != null and salarymax != ''">
+		and <![CDATA[CONVERT(position.salarymax,SIGNED)<= ]]> #{salarymax}
+		</if>
+		<if test="experience != null and experience != ''">
+		and <![CDATA[CONVERT(position.experience,SIGNED)<= ]]> #{experience}
+		</if>
+		<if test="education != null and education != ''">
+		and <![CDATA[CONVERT(position.education,SIGNED)<= ]]> #{education}
+		</if>
+		<if test="positionnature != null and positionnature != ''">
+		and position.positionnature =#{positionnature}
+		</if>
+		and status=1 
+		and position.positionid not in (select delivery.positionid from delivery where userid=#{userid})
+	</where>
+	limit 5
 	</select>
 	<select id="selectremen" resultType="com.shipin.pojo.Position">
 		select position.positionid positionid,position.positionname positionname,position.workaddress workaddress,position.salarymin salarymin,position.salarymax salarymax,position.education education,position.experience experience,position.positionadvantage positionadvantage,position.releasetime releasetime,

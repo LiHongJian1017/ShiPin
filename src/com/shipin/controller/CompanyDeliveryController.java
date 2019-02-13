@@ -36,7 +36,7 @@ import com.shipin.service.CompanyPositionService;
 public class CompanyDeliveryController {
 	
 	@Autowired
-	CompanyDeliveryService companyDeliveryService;
+	private CompanyDeliveryService companyDeliveryService;
 
 	@RequestMapping("/interviewresumes")
 	public String interviewresumes(HttpServletRequest request,Model model){
@@ -242,12 +242,15 @@ public class CompanyDeliveryController {
 		if(obj==null){
 			return "redirect:logout.action";
 		}else{
+			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
 			int deliveryid = Integer.parseInt(request.getParameter("deliveryid").toString());
 			int status =  Integer.parseInt(request.getParameter("status").toString());
 			String flag = request.getParameter("flag").toString();
-			Map<String,String> map=new HashMap<String,String>();  
+			/*Date date = getnow();*/
+			Map map=new HashMap();  
 			map.put("deliveryid",deliveryid+"");  
 			map.put("status", status+"");
+			map.put("updatetime", df.format(new Date()));
 			companyDeliveryService.deliverystatus(map);
 			if(flag.equals("0")){
 				return "redirect:caninterviewresumes.action";

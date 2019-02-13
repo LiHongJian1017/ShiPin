@@ -21,7 +21,7 @@ public interface PosandcomDao {
 
 	public Collection selectcollection(Map map);
 
-	public Lianheposition selectlianheposition(int companyid);
+	public List<Lianheposition> selectlianheposition(int companyid);
 
 	public List<Position> select_position(int companyid);
 
@@ -40,4 +40,13 @@ public interface PosandcomDao {
 	public int selectcompanycount(Map map);
 
 	public List<Position> selectremen();
+
+	public List<Posandcom> selectcollections(int userid);
+
+	public List<Posandcom> mlistjob(Map map);
+
+	public int mlistjobcount(Map map);
+
+	public List<Posandcom> mlistjobright(Map newmap);
+
 }

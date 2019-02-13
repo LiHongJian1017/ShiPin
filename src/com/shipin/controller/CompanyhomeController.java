@@ -32,7 +32,7 @@ public class CompanyhomeController {
 	@Autowired
 	private CompanyhomeService companyhomeService;
 	@Autowired
-	PosandcomService posandcomService;
+	private PosandcomService posandcomService;
 	
 	@RequestMapping("/myhome")
 	public String myhome(HttpServletRequest request,Model model){
@@ -45,7 +45,7 @@ public class CompanyhomeController {
 			int companyid = Integer.parseInt(session.getAttribute("companyid").toString());
 			//System.out.println(companyid);
 			Company company = companyhomeService.companyAll(companyid);
-			Lianheposition lianheposition = posandcomService.selectlianheposition(companyid);
+			List<Lianheposition> lianheposition = posandcomService.selectlianheposition(companyid);
 			model.addAttribute("company", company);
 			//System.out.println(company.toString());
 			

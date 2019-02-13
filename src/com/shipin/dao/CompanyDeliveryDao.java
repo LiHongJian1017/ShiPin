@@ -19,4 +19,8 @@ public interface CompanyDeliveryDao {
 
 	int counttiaojian(Map map);
 
+	void deliveryalloffline(Map newmap);
+
+	void deletecollectionposition(Map newmap);
+
 }

@@ -29,7 +29,7 @@ import com.shipin.service.PosandcomService;
 public class UserjianliController {
 	
 	@Autowired
-	JianliService jianliService;
+	private JianliService jianliService;
 	@Autowired
 	private CompanyPositionService companypositionService;
 	
@@ -162,6 +162,23 @@ public class UserjianliController {
 			return "tea/preview";
 		}
 	}
+	@RequestMapping("/uploadjianlistatus")
+	@ResponseBody
+	public String uploadjianlistatus(Jianli jianli,HttpServletRequest request){
+		HttpSession session=request.getSession();
+		Object obj = session.getAttribute("userid");
+		if(obj==null){
+			return "0";
+		}else{
+			int userid=Integer.parseInt(session.getAttribute("userid").toString());
+			System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAA"+jianli.getStatus());
+			Map map = new HashMap();
+			map.put("userid",userid);
+			map.put("status",jianli.getStatus());
+			jianliService.uploadjianlistatus(map);
+			return "1";
+		}
+	}
 	
 	@RequestMapping("/deliveryjianli")
 	@ResponseBody
@@ -191,6 +208,9 @@ public class UserjianliController {
 				map.put("positionid",positionid);  
 				map.put("status","1");  
 				Position position = companypositionService.getpositiondetail(map);
+				if(position==null){
+					return "4"; // 此职位已经删除
+				}
 				//System.out.println(position.toString());
 				map.put("userid", userid);
 				Delivery delivery2 = jianliService.selectdelivert(map);

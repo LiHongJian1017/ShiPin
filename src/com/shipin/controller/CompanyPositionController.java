@@ -19,12 +19,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.alibaba.druid.stat.TableStat.Mode;
 import com.shipin.pojo.Company;
 import com.shipin.pojo.Position;
 import com.shipin.service.CompanyhomeService;
 
 import cn.itcast.utils.Page;
 
+import com.shipin.service.CompanyDeliveryService;
 import com.shipin.service.CompanyPositionService;
 
 @Controller
@@ -32,14 +34,27 @@ public class CompanyPositionController {
 
 	@Autowired
 	private CompanyPositionService companypositionService;
+	@Autowired
+	private CompanyhomeService companyhomeService;
+	@Autowired
+	private CompanyDeliveryService companyDeliveryService;
 	
 	@RequestMapping("/createjob")
-	public String createjob(HttpServletRequest request){
+	public String createjob(HttpServletRequest request,Model model){
 		HttpSession session=request.getSession();
 		Object obj = session.getAttribute("companyid");
 		if(obj==null){
 			return "redirect:logout.action";
 		}else{
+			int companyid = Integer.parseInt(session.getAttribute("companyid").toString());
+			//System.out.println(companyid);
+			Company company = companyhomeService.companyAll(companyid);
+			if(company.getCompanyname()==null||company.getCompanytype()==null||company.getCompanyceoname()==null||company.getCompanysize()==null){
+				model.addAttribute("info", 0);
+			}
+			else{
+				model.addAttribute("info", 1);
+			}
 			return "com/createjob";
 		}
 	}
@@ -94,9 +109,10 @@ public class CompanyPositionController {
 			position.setPositiondetail(position.getPositiondetail().replace("\r", "</br>"));
 			Date  date =new Date();
 			position.setReleasetime(getnow());
+			position.setNumber(0);
 			//System.out.println(position.toString());
 			companypositionService.add_Position(position);
-			return "com/createjob";
+			return "redirect:createjob.action";
 		}
 	}
 	
@@ -182,12 +198,18 @@ public class CompanyPositionController {
 		if(obj==null){
 			return "redirect:logout.action";
 		}else{
+			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
 			String positionid = request.getParameter("positionid").toString();
 			//System.out.println(positionid);
 			Map<String,String> map=new HashMap<String,String>();  
 			map.put("positionid",positionid);  
 			map.put("status","0");  
 			companypositionService.offlineposition(map);
+			Map newmap=new HashMap();  
+			newmap.put("positionid",positionid);  
+			newmap.put("status", 5);
+			newmap.put("updatetime", df.format(new Date()));
+			companyDeliveryService.deliveryalloffline(newmap);
 			return "redirect:ypositions.action";
 		}
 	}
@@ -224,6 +246,9 @@ public class CompanyPositionController {
 			map.put("positionid",positionid);  
 			map.put("status",status);  
 			companypositionService.deleteposition(map);
+			Map newmap=new HashMap();  
+			newmap.put("positionid",positionid);  
+			companyDeliveryService.deletecollectionposition(newmap);
 			return "redirect:npositions.action";
 		}
 	}

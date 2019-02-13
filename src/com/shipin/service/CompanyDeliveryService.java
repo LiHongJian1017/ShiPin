@@ -18,6 +18,10 @@ public interface CompanyDeliveryService {
 	Delivery auditpreview(int deliveryid);
 
 	int counttiaojian(Map map);
+
+	void deliveryalloffline(Map newmap);
+
+	void deletecollectionposition(Map newmap);
 	
 
 }

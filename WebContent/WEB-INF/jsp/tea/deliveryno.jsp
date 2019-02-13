@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -44,7 +46,7 @@
 	<div id="body">
 		<div id="header">
 			<div class="wrapper">
-				<a class="logo" href="index.html"> <img width="229" height="43"
+				<a class="logo" href=""> <img width="229" height="43"
 					alt="师聘招聘-专注互联网招聘" src="style/images/logo.png">
 				</a>
 				<ul class="reset" id="navheader">
@@ -54,7 +56,7 @@
 				</ul>
 				<dl class="collapsible_menu">
 					<dt>
-						<span>Jerry&nbsp;</span> <span class="red dn" id="noticeDot-1"></span>
+						<span>${sessionScope.nickname}&nbsp;</span> <span class="red dn" id="noticeDot-1"></span>
 						<i></i>
 					</dt>
 					<dd style="display: none;">
@@ -66,11 +68,14 @@
 					<dd style="display: none;">
 						<a href="delivery.action">我投递的职位</a>
 					</dd>
+					<dd style="display: none;">
+						<a href="mlist.action?page=1">我的推荐</a>
+					</dd>
 					<dd class="btm" style="display: none;">
-						<a href="">我的订阅</a>
+						<a href="certification.action">我的资格认证</a>
 					</dd>
 					<dd style="display: none;">
-						<a href="">帐号设置</a>
+						<a href="userupdatepassword.action">帐号设置</a>
 					</dd>
 					<dd class="logout" style="display: none;">
 						<a rel="nofollow" href="logout.action">退出</a>
@@ -100,29 +105,34 @@
 								<ul class="reset">
 									<li><a href="delivery.action">全部</a></li>
 									<li><a href="deliverysuccess.action">投递成功</a></li>
-									<li><a href="deliverylook.action">被查看</a></li>
+									<!-- <li><a href="deliverylook.action">被查看</a></li> -->
 									<li><a href="deliverypass.action">通过初筛</a></li>
 									<li><a href="deliveryinterview.action">通知面试</a></li>
-									<li class="current last"><a href="deliveryno.action">不合适</a></li>
+									<li class="current"><a href="deliveryno.action">不合适</a></li>
+									<li class="last"><a href="deliveryinvalid.action">&nbsp;&nbsp;失效</a></li>
 								</ul>
 							</div>
 							<form id="deliveryForm">
+							<c:forEach items="${listPosandcomanddel}" var="listPosandcomanddel">
 								<ul class="reset my_delivery">
 									<li>
 										<div class="d_item">
-											<h2 title="随便写">
+											<h2 title="${listPosandcomanddel.positionname}">
 												<a target="_blank"
-													href="jobdetail.action"> <em>内容运营</em>
-													<span>（1k-2k）</span> <!--  -->
+													href="jobdetail.action?positionid=${listPosandcomanddel.positionid}&companyid=${listPosandcomanddel.companyid}"> <em>${listPosandcomanddel.positionname}</em>
+													<span>（${listPosandcomanddel.salarymin}k-${listPosandcomanddel.salarymax}k）</span> <!--  -->
 												</a>
 											</h2>
 											<div class="clear"></div>
-											<a title="公司名称" class="d_jobname" target="_blank"
-												href="http://www.lagou.com/c/25927.html"> 公司名称 <span>[上海]</span>
-											</a> <span class="d_time">2014-07-01 17:15</span>
+											<a title="${listPosandcomanddel.companyname}" class="d_jobname" target="_blank"
+												href="companydetail.action?companyid=${listPosandcomanddel.companyid}"> ${listPosandcomanddel.companyname} <span>[${listPosandcomanddel.workaddress}]</span>
+											</a> <span class="d_time"><fmt:formatDate
+										value="${listPosandcomanddel.updatetime}"
+										pattern="yyyy-MM-dd HH:mm" /></span>
 											<div class="clear"></div>
 											<div class="d_resume">
-												使用简历： <span> 在线简历 </span>
+												使用简历： <span> <a target="_blank"
+													href="deliverypreview.action?deliveryid=${listPosandcomanddel.deliveryid}">${listPosandcomanddel.jianliname} </a></span>
 											</div>
 											<a class="btn_showprogress" href="javascript:;"> 不合适 <i></i></a>
 										</div>
@@ -139,38 +149,7 @@
 										</div>
 									</li>
 								</ul>
-								<ul class="reset my_delivery">
-									<li>
-										<div class="d_item">
-											<h2 title="随便写">
-												<a target="_blank"
-													href="jobdetail.action"> <em>内容运营2</em>
-													<span>（1k-2k）</span> <!--  -->
-												</a>
-											</h2>
-											<div class="clear"></div>
-											<a title="公司名称" class="d_jobname" target="_blank"
-												href="http://www.lagou.com/c/25927.html"> 公司名称2 <span>[上海]</span>
-											</a> <span class="d_time">2014-07-01 17:15</span>
-											<div class="clear"></div>
-											<div class="d_resume">
-												使用简历： <span> 在线简历2 </span>
-											</div>
-											<a class="btn_showprogress" href="javascript:;"> 不合适 <i></i></a>
-										</div>
-										<div class="progress_status	dn">`
-											
-											<ul class="status_list">
-												<li class="top">
-													<div class="list_body">
-														<div>您的简历已收到，但目前您的工作经历与该职位不是很匹配，因此很抱歉地通知您无法进入面试。</div>
-													</div>
-												</li>
-											</ul>
-											<a class="btn_closeprogress" href="javascript:;"></a>
-										</div>
-									</li>
-								</ul>
+							</c:forEach>
 								<input type="hidden" value="-1" name="tag"> <input
 									type="hidden" value="" name="r">
 							</form>
@@ -180,40 +159,26 @@
 				<div class="content_r">
 					<div class="mycenterR" id="myInfo">
 						<h2>我的信息</h2>
-						<a href="collections.html">我收藏的职位</a> <br> <a
-							href="toudi.html" target="_blank">我投递的职位<span
-							id="noticeNoPage" class="red dn">&nbsp;(0)</span></a> <br> <a
-							target="_blank" href="subscribe.html">我订阅的职位</a> <br> <a
-							target="_blank" href="mList.html">我的职位推荐</a>
+						<a target="_blank" href="jianli.action">我的简历</a> <br> 
+						<a target="_blank" href="collections.action">我收藏的职位</a> <br> 
+						<a target="_blank" href="delivery.action">我投递的职位</a> <br> 
+						<a target="_blank" href="mlist.action?page=1">我的推荐</a> <br> 
+						<a target="_blank" href="certification.action">我的资格认证</a> <br> 
 					</div>
 					<!--end #myInfo-->
 					<div class="mycenterR" id="myRecommend">
 						<h2>
-							可能适合你的职位 <i>匹配度</i>
+							可能适合你的职位 <i>Go</i>
 						</h2>
 						<ul class="reset">
+						<c:forEach items="${listPosandcom}" var="listPosandcom">
 							<li><a target="_blank"
-								href="http://www.lagou.com/jobs/22194.html"> <span
-									class="f16">产品经理</span> <span class="c7">广州百田</span> <em>92%</em>
+								href="jobdetail.action?positionid=${listPosandcom.positionid}&companyid=${listPosandcom.companyid}"> <span
+									class="f16">${listPosandcom.positionname}</span> <span class="c7">${listPosandcom.companyname}</span> <em>Go</em>
 							</a></li>
-							<li><a target="_blank"
-								href="http://www.lagou.com/jobs/148004.html"> <span
-									class="f16">产品经理</span> <span class="c7">短讯神州</span> <em>92%</em>
-							</a></li>
-							<li><a target="_blank"
-								href="http://www.lagou.com/jobs/46793.html"> <span
-									class="f16">产品经理</span> <span class="c7">爱拍</span> <em>89%</em>
-							</a></li>
-							<li><a target="_blank"
-								href="http://www.lagou.com/jobs/99307.html"> <span
-									class="f16">产品经理</span> <span class="c7">一彩票</span> <em>88%</em>
-							</a></li>
-							<li><a target="_blank"
-								href="http://www.lagou.com/jobs/147510.html"> <span
-									class="f16">产品经理</span> <span class="c7">林安集团</span> <em>88%</em>
-							</a></li>
+						</c:forEach>
 						</ul>
-						<a target="_blank" class="more" href="mList.html">更多推荐职位&gt;&gt;</a>
+						<a target="_blank" class="more" href="mlist.action?page=1">更多推荐职位&gt;&gt;</a>
 					</div>
 					<!--end #myRecommend-->
 					<div class="greybg qrcode mt20">
@@ -325,14 +290,12 @@
 	<!-- end #body -->
 	<div id="footer">
 		<div class="wrapper">
-			<a rel="nofollow" target="_blank" href="about.html">联系我们</a> <a
-				target="_blank" href="http://www.lagou.com/af/zhaopin.html">互联网公司导航</a>
-			<a rel="nofollow" target="_blank" href="http://e.weibo.com/lagou720">师聘微博</a>
-			<a rel="nofollow" href="javascript:void(0)" class="footer_qr">师聘微信<i></i></a>
+			<a  target="_blank" rel="nofollow">联系我们</a> <a
+				 target="_blank">互联网公司导航</a> <a
+				 target="_blank" rel="nofollow">师聘微博</a>
+			<a class="footer_qr" href="javascript:void(0)" rel="nofollow">师聘微信<i></i></a>
 			<div class="copyright">
-				&copy;2017-2019 师聘 <a
-					href="http://www.miitbeian.gov.cn/state/outPortal/loginPortal.action"
-					target="_blank">京ICP备14023790号-2</a>
+				&copy;2017-2019 师聘 <a target="_blank">京ICP备14023790号-2</a>
 			</div>
 		</div>
 	</div>

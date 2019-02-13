@@ -31,11 +31,30 @@
 					第一可以自动添加set关键字, 
 					第二可以去掉最后一个更新的逗号 -->
 		<set>
-			<if test="status != null and  status != ''">
+			<if test="status != null">
 				status=#{status} ,
+			</if>
+			<if test="updatetime != null and  updatetime != ''">
+				updatetime=#{updatetime, jdbcType=TIMESTAMP},
 			</if>
 		</set>
 		where deliveryid=#{deliveryid}
+	</update>
+	
+	<update id="deliveryalloffline" parameterType="Map">
+		update delivery 
+		<!-- set标签作用:
+					第一可以自动添加set关键字, 
+					第二可以去掉最后一个更新的逗号 -->
+		<set>
+			<if test="status != null">
+				status=#{status} ,
+			</if>
+			<if test="updatetime != null and  updatetime != ''">
+				updatetime=#{updatetime, jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where positionid=#{positionid}
 	</update>
 	<select id="delivery" parameterType="Map" resultType="com.shipin.pojo.Delivery">
 		select * from delivery where positionid in (select positionid from position where companyid=#{companyid,jdbcType=INTEGER} and status=1) and status=#{status,jdbcType=INTEGER} limit #{start},6
@@ -55,4 +74,7 @@
 	<select id="auditpreview" parameterType="int" resultType="com.shipin.pojo.Delivery">
 		select * from delivery where deliveryid = #{deliveryid}
 	</select>
+	<delete id="deletecollectionposition" parameterType="Map">
+		delete from collection where positionid=#{positionid}
+	</delete>
 </mapper>

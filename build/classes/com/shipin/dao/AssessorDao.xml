@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shipin.dao.AssessorDao">
+	<select id="selectAssessor" parameterType="Map" resultType="com.shipin.pojo.User">
+		select * from user
+	<where>
+		<if test="status != null and status != 2">
+		and status = #{status}
+		</if>
+		<if test="type != null and type != ''">
+		and type = #{type}
+		</if>
+	</where>
+	limit #{start},9
+	</select>
+	<select id="selectCountAssessor" parameterType="Map" resultType="int">
+		select count(*) from user 
+		<where>
+		<if test="status != null and status != 2">
+		and status = #{status}
+		</if>
+		<if test="type != null and type != ''">
+		and type = #{type}
+		</if>
+		
+	</where>
+	</select>
+	
+	<select id="checkassessor" parameterType="Map" resultType="com.shipin.pojo.User">
+		select * from user
+	<where>
+		<if test="username != null and username != ''">
+			and username = #{username}
+		</if>
+	</where>
+	</select>
+	<select id="userdetail" parameterType="Map" resultType="com.shipin.pojo.User">
+		select * from user 
+		<where>
+		<if test="userid != null">
+		and userid = #{userid}
+		</if>	
+	</where>
+	</select>
+	
+	<update id="updatestatus" parameterType="Map">
+		update user 
+		<set>
+			<if test="status != null">
+				status=#{status} ,
+			</if>
+		</set>
+		where userid=#{userid}
+	</update>
+		<update id="update" parameterType="Map">
+		update user 
+		<set>
+			<if test="name != null">
+				name=#{name} ,
+			</if>
+			<if test="password != null">
+				password=#{password} ,
+			</if>
+		</set>
+		where userid=#{userid}
+	</update>
+	
+	<delete id="deleteassessor" parameterType="Map">
+		delete from user where userid=#{userid}
+	</delete>
+	<insert id="addassessor" parameterType="Map">
+		insert into user (name, password,username, type, status) values (#{name},#{password},#{username}, #{type}, #{status})	
+	</insert> 
+	
+</mapper>

@@ -51,7 +51,7 @@
 	<div id="body">
 		<div id="header">
 			<div class="wrapper">
-				<a class="logo" href="http://www.lagou.com/"> <img width="229"
+				<a class="logo" href=""> <img width="229"
 					height="43" alt="师聘招聘-专注互联网招聘" src="style/images/logo.png">
 				</a>
 				<ul id="navheader" class="reset">
@@ -61,11 +61,14 @@
 				</ul>
 				<dl class="collapsible_menu">
 					<dt>
-						<span>jason&nbsp;</span> <span class="red dn" id="noticeDot-1"></span>
+						<span>${sessionScope.nickname}&nbsp;</span> <span class="red dn" id="noticeDot-1"></span>
 						<i></i>
 					</dt>
 					<dd style="display: none;">
 						<a href="myhome.action">公司主页</a>
+					</dd>
+					<dd style="display: none;">
+						<a href="lianhecreatejob.action">联合招聘</a>
 					</dd>
 					<dd style="display: none;">
 						<a href="createjob.action">发布的职位</a>
@@ -74,7 +77,7 @@
 						<a href="caninterviewresumes.action">收到的简历</a>
 					</dd>
 					<dd style="display: none;">
-						<a href="">帐号设置</a>
+						<a href="comupdatepassword.action">帐号设置</a>
 					</dd>
 					<dd class="logout" style="display: none;">
 						<a rel="nofollow" href="logout.action">退出</a>
@@ -97,10 +100,10 @@
 					</dd>
 				</dl>
 				<div class="subscribe_side mt20">
-					<div class="f14">想收到更多更好的简历？</div>
-					<div class="f18 mb10">就用师聘招聘加速助手</div>
+					<div class="f14">想看到更多更好的简历？</div>
+					<div class="f18 mb10">就用师聘联合招聘助手</div>
 					<div>
-						咨询：<a class="f16" href="mailto:jessica@lagou.com">jessica@lagou.com</a>
+						咨询：<a class="f16" href="">jessica@lagou.com</a>
 					</div>
 					<div class="f18 ti2em">010-57286512</div>
 				</div>
@@ -219,14 +222,12 @@
 	<!-- end #body -->
 	<div id="footer">
 		<div class="wrapper">
-			<a rel="nofollow" target="_blank" href="about.html">联系我们</a> <a
-				target="_blank" href="http://www.lagou.com/af/zhaopin.html">互联网公司导航</a>
-			<a rel="nofollow" target="_blank" href="http://e.weibo.com/lagou720">师聘微博</a>
-			<a rel="nofollow" href="javascript:void(0)" class="footer_qr">师聘微信<i></i></a>
+			<a  target="_blank" rel="nofollow">联系我们</a> <a
+				 target="_blank">互联网公司导航</a> <a
+				 target="_blank" rel="nofollow">师聘微博</a>
+			<a class="footer_qr" href="javascript:void(0)" rel="nofollow">师聘微信<i></i></a>
 			<div class="copyright">
-				&copy;2017-2019 师聘 <a
-					href="http://www.miitbeian.gov.cn/state/outPortal/loginPortal.action"
-					target="_blank">京ICP备14023790号-2</a>
+				&copy;2017-2019 师聘 <a target="_blank">京ICP备14023790号-2</a>
 			</div>
 		</div>
 	</div>

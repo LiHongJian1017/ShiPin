@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 </script>
@@ -1453,11 +1455,11 @@ div.BMap_cmLstItem {
 <link rel="stylesheet" href="style/css/ui.css">
 <link rel="stylesheet" href="style/css/window.css">
 </head>
-<body>
+<body onload="info('${info}')">
 	<div id="body">
 		<div id="header">
 			<div class="wrapper">
-				<a class="logo" href="index.html"> <img width="229" height="43"
+				<a class="logo" href=""> <img width="229" height="43"
 					alt="师聘招聘-专注互联网招聘" src="style/images/logo.png">
 				</a>
 				<ul id="navheader" class="reset">
@@ -1467,11 +1469,14 @@ div.BMap_cmLstItem {
 				</ul>
 				<dl class="collapsible_menu">
 					<dt>
-						<span>jason&nbsp;</span> <span class="red dn" id="noticeDot-1"></span>
+						<span>${sessionScope.nickname}&nbsp;</span> <span class="red dn" id="noticeDot-1"></span>
 						<i></i>
 					</dt>
 					<dd style="display: none;">
 						<a href="myhome.action">公司主页</a>
+					</dd>
+					<dd style="display: none;">
+						<a href="lianhecreatejob.action">联合招聘</a>
 					</dd>
 					<dd style="display: none;">
 						<a href="createjob.action">发布的职位</a>
@@ -1480,7 +1485,7 @@ div.BMap_cmLstItem {
 						<a href="caninterviewresumes.action">收到的简历</a>
 					</dd>
 					<dd style="display: none;">
-						<a href="">帐号设置</a>
+						<a href="comupdatepassword.action">帐号设置</a>
 					</dd>
 					<dd class="logout" style="display: none;">
 						<a rel="nofollow" href="logout.action">退出</a>
@@ -1503,10 +1508,10 @@ div.BMap_cmLstItem {
 					</dd>
 				</dl>
 				<div class="subscribe_side mt20">
-					<div class="f14">想收到更多更好的简历？</div>
-					<div class="f18 mb10">就用师聘招聘加速助手</div>
+					<div class="f14">想看到更多更好的简历？</div>
+					<div class="f18 mb10">就用师聘联合招聘助手</div>
 					<div>
-						咨询：<a class="f16" href="mailto:jessica@lagou.com">jessica@lagou.com</a>
+						咨询：<a class="f16" >jessica@lagou.com</a>
 					</div>
 					<div class="f18 ti2em">010-57286512</div>
 				</div>
@@ -1525,9 +1530,16 @@ div.BMap_cmLstItem {
 						</h1>
 					</dt>
 					<dd>
-						<div class="ccc_tr">
+						<!-- <div class="ccc_tr">
 							今日已发布 <span>0</span> 个职位 还可发布 <span>5</span> 个职位
-						</div>
+						</div> -->
+					<c:if test="${info=='0'}">
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<img src="http://www.lagou.com/images/tiponce.jpg" width="650" height="59">
+						<!-- <div class="filter_tip">
+							公司基本信息不完善,完善信息后&nbsp;<span>可以</span>&nbsp;发布职位!
+						</div> -->
+					</c:if>
 						<form action="createposition.action"
 							method="post" id="jobForm" onsubmit="return check()">
 							<input type="hidden" value="" name="id"> <input
@@ -2440,14 +2452,12 @@ $(function(){
 	<!-- end #body -->
 	<div id="footer">
 		<div class="wrapper">
-			<a rel="nofollow" target="_blank" href="about.html">联系我们</a> <a
-				target="_blank" href="http://www.lagou.com/af/zhaopin.html">互联网公司导航</a>
-			<a rel="nofollow" target="_blank" href="http://e.weibo.com/lagou720">师聘微博</a>
-			<a rel="nofollow" href="javascript:void(0)" class="footer_qr">师聘微信<i></i></a>
+			<a  target="_blank" rel="nofollow">联系我们</a> <a
+				 target="_blank">互联网公司导航</a> <a
+				 target="_blank" rel="nofollow">师聘微博</a>
+			<a class="footer_qr" href="javascript:void(0)" rel="nofollow">师聘微信<i></i></a>
 			<div class="copyright">
-				&copy;2017-2019 师聘 <a
-					href="http://www.miitbeian.gov.cn/state/outPortal/loginPortal.action"
-					target="_blank">京ICP备14023790号-2</a>
+				&copy;2017-2019 师聘 <a target="_blank">京ICP备14023790号-2</a>
 			</div>
 		</div>
 	</div>
@@ -2489,6 +2499,12 @@ $(function(){
 		<div
 			style="position: absolute; width: 9999px; visibility: hidden; display: none;"></div>
 	</div>
-
+<script type="text/javascript">
+	function info(info) {  	
+		if(info==0){
+			$('#formSubmit').attr('disabled', "disabled")
+		}
+	}
+</script>
 </body>
 </html>

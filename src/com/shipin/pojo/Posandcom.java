@@ -25,6 +25,8 @@ public class Posandcom {
 	private String companytag3;			//公司标签3
 	private String companytag4;			//公司标签4
 	private String companytag5;			//公司标签5
+	
+	
 	public int getPositionid() {
 		return positionid;
 	}

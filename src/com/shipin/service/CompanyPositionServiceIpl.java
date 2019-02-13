@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.shipin.dao.CompanyPositionDao;
+import com.shipin.pojo.Jianli;
 import com.shipin.pojo.Position;
 
 
@@ -57,6 +58,66 @@ public class CompanyPositionServiceIpl implements CompanyPositionService {
 	public void edit_Position(Position position) {
 		// TODO Auto-generated method stub
 		companypositionDao.edit_Position(position);
+	}
+
+	@Override
+	public void add_lianhePosition(Position position) {
+		// TODO Auto-generated method stub
+		companypositionDao.add_lianhePosition(position);
+	}
+
+	@Override
+	public List<Position> select_YNlianheposition(Map map) {
+		// TODO Auto-generated method stub
+		return companypositionDao.select_YNlianheposition(map);
+	}
+
+	@Override
+	public int lianhecount(Map map) {
+		// TODO Auto-generated method stub
+		return companypositionDao.lianhecount(map);
+	}
+
+	@Override
+	public void offlinelianheposition(Map<String, String> map) {
+		// TODO Auto-generated method stub
+		companypositionDao.offlinelianheposition(map);
+	}
+
+	@Override
+	public void deletelianheposition(Map<String, String> map) {
+		// TODO Auto-generated method stub
+		companypositionDao.deletelianheposition(map);
+	}
+
+	@Override
+	public List<Position> select_klianheposition(Map map) {
+		// TODO Auto-generated method stub
+		return companypositionDao.select_klianheposition(map);
+	}
+
+	@Override
+	public int klianhecount(Map map) {
+		// TODO Auto-generated method stub
+		return companypositionDao.klianhecount(map);
+	}
+
+	@Override
+	public Position selectposition(int positionid) {
+		// TODO Auto-generated method stub
+		return companypositionDao.selectposition(positionid);
+	}
+
+	@Override
+	public List<Jianli> selectjianli(Map map) {
+		// TODO Auto-generated method stub
+		return companypositionDao.selectjianli(map);
+	}
+
+	@Override
+	public int kjianlicount(Map map) {
+		// TODO Auto-generated method stub
+		return companypositionDao.kjianlicount(map);
 	}
 
 	

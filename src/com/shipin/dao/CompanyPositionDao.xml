@@ -2,19 +2,74 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.shipin.dao.CompanyPositionDao">
 	<insert id="add_Position" parameterType="com.shipin.pojo.Position">
-		insert into position (positiontype, positionname,positionnature, positiondetail, workaddress, positionaddress, salarymin, salarymax, education, experience, positionadvantage, releasetime, status, companyid) values (#{positiontype}, #{positionname}, #{positionnature}, #{positiondetail}, #{workaddress}, #{positionaddress}, #{salarymin}, #{salarymax}, #{education}, #{experience}, #{positionadvantage}, #{releasetime}, #{status}, #{companyid})
+		insert into position (positiontype, positionname,positionnature, positiondetail, workaddress, positionaddress, salarymin, salarymax, education, experience, positionadvantage, releasetime, status, companyid,number) values (#{positiontype}, #{positionname}, #{positionnature}, #{positiondetail}, #{workaddress}, #{positionaddress}, #{salarymin}, #{salarymax}, #{education}, #{experience}, #{positionadvantage}, #{releasetime}, #{status}, #{companyid}, #{number})
+	</insert>
+	<insert id="add_lianhePosition" parameterType="com.shipin.pojo.Position">
+		insert into lianheposition (positiontype, positionname,positionnature, positiondetail, workaddress, positionaddress, salarymin, salarymax, education, experience, positionadvantage, releasetime, status, companyid,number) values (#{positiontype}, #{positionname}, #{positionnature}, #{positiondetail}, #{workaddress}, #{positionaddress}, #{salarymin}, #{salarymax}, #{education}, #{experience}, #{positionadvantage}, #{releasetime}, #{status}, #{companyid}, #{number})
 	</insert>
 	<select id="select_YNposition" parameterType="Map" resultType="com.shipin.pojo.Position">
 		select * from position where companyid=#{companyid,jdbcType=INTEGER} and status=#{status,jdbcType=INTEGER} limit #{start},6
 	</select>
+	<select id="selectposition" parameterType="int" resultType="com.shipin.pojo.Position">
+		select * from lianheposition where positionid=#{positionid,jdbcType=INTEGER}
+	</select>
+	<select id="select_YNlianheposition" parameterType="Map" resultType="com.shipin.pojo.Position">
+		select * from lianheposition where companyid=#{companyid,jdbcType=INTEGER} and status=#{status,jdbcType=INTEGER} limit #{start},6
+	</select>
+	<select id="select_klianheposition" parameterType="Map" resultType="com.shipin.pojo.Position">
+		select * from lianheposition where companyid=#{companyid,jdbcType=INTEGER} and status=#{status,jdbcType=INTEGER} and number=#{number,jdbcType=INTEGER} limit #{start},6
+	</select>
+	<select id="klianhecount" parameterType="Map" resultType="int">
+		select count(*) from lianheposition where companyid=#{companyid,jdbcType=INTEGER} and status=#{status,jdbcType=INTEGER} and number=#{number,jdbcType=INTEGER} limit #{start},6
+	</select>
 	<select id="count" parameterType="Map" resultType="int">
 		select count(*) from position where companyid=#{companyid,jdbcType=INTEGER} and status=#{status,jdbcType=INTEGER}
+	</select>
+	<select id="lianhecount" parameterType="Map" resultType="int">
+		select count(*) from lianheposition where companyid=#{companyid,jdbcType=INTEGER} and status=#{status,jdbcType=INTEGER}
 	</select>
 	<select id="getpositiondetail" parameterType="Map" resultType="com.shipin.pojo.Position">
 		select * from position where positionid=#{positionid,jdbcType=INTEGER} and status=#{status,jdbcType=INTEGER}
 	</select>
+	
+	<select id="selectjianli" parameterType="Map" resultType="com.shipin.pojo.Jianli">
+		select * from jianli 
+		where status=#{status,jdbcType=INTEGER} 
+		and workaddress=#{workaddress} 
+		and <![CDATA[CONVERT(education,SIGNED)>= ]]> #{education,jdbcType=INTEGER}
+		and <![CDATA[CONVERT(experience,SIGNED)>= ]]> #{experience,jdbcType=INTEGER}
+		and positionnature=#{positionnature} 
+		and hopepositionname=#{hopepositionname} 
+		and <![CDATA[CONVERT(salarymin,SIGNED)>= ]]> #{salarymin,jdbcType=INTEGER}
+		and <![CDATA[CONVERT(salarymax,SIGNED)<= ]]> #{salarymax,jdbcType=INTEGER}
+		limit #{start},6
+	</select>
+	<select id="kjianlicount" parameterType="Map" resultType="int">
+		select count(*) from jianli 
+		where status=#{status,jdbcType=INTEGER} 
+		and workaddress=#{workaddress} 
+		and <![CDATA[CONVERT(education,SIGNED)>= ]]> #{education,jdbcType=INTEGER}
+		and <![CDATA[CONVERT(experience,SIGNED)>= ]]> #{experience,jdbcType=INTEGER}
+		and positionnature=#{positionnature} 
+		and hopepositionname=#{hopepositionname} 
+		and <![CDATA[CONVERT(salarymin,SIGNED)>= ]]> #{salarymin,jdbcType=INTEGER}
+		and <![CDATA[CONVERT(salarymax,SIGNED)<= ]]> #{salarymax,jdbcType=INTEGER}
+	</select>
+	
 	<update id="offlineposition" parameterType="Map">
 		update position 
+		<!-- set标签作用:
+					第一可以自动添加set关键字, 
+					第二可以去掉最后一个更新的逗号 -->
+		<set>
+			<if test="status != null and  status != ''">
+				status=#{status,jdbcType=INTEGER} ,
+			</if>
+		</set>
+		where positionid=#{positionid,jdbcType=INTEGER}
+	</update>
+	<update id="offlinelianheposition" parameterType="Map">
+		update lianheposition 
 		<!-- set标签作用:
 					第一可以自动添加set关键字, 
 					第二可以去掉最后一个更新的逗号 -->
@@ -72,5 +127,8 @@
 	</update>
 	<delete id="deleteposition" parameterType="Map">
 		delete from position where positionid=#{positionid,jdbcType=INTEGER} and status=#{status,jdbcType=INTEGER}
+	</delete>
+	<delete id="deletelianheposition" parameterType="Map">
+		delete from lianheposition where positionid=#{positionid,jdbcType=INTEGER} and status=#{status,jdbcType=INTEGER}
 	</delete>
 </mapper>

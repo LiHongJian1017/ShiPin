@@ -4,8 +4,8 @@ import java.util.Date;
 
 public class Jianli {
 
-	private int jianliid;
-	private int userid;
+	private Integer jianliid;
+	private Integer userid;
 	private String jianliname;
 	private String image;
 	private String name;
@@ -18,8 +18,8 @@ public class Jianli {
 	private String workaddress;
 	private String positionnature;
 	private String hopepositionname;
-	private int salarymin;
-	private int salarymax;
+	private Integer salarymin;
+	private Integer salarymax;
 	private String workexperience;
 	private String schoolname;
 	private String specialty;
@@ -27,7 +27,7 @@ public class Jianli {
 	private String yearend;
 	private String selfdescription;
 	private String certification;
-	private int status;
+	private Integer status;
 	private Date updatetime;
 	
 	public String getCertification() {
@@ -36,16 +36,16 @@ public class Jianli {
 	public void setCertification(String certification) {
 		this.certification = certification;
 	}
-	public int getJianliid() {
+	public Integer getJianliid() {
 		return jianliid;
 	}
-	public void setJianliid(int jianliid) {
+	public void setJianliid(Integer jianliid) {
 		this.jianliid = jianliid;
 	}
-	public int getUserid() {
+	public Integer getUserid() {
 		return userid;
 	}
-	public void setUserid(int userid) {
+	public void setUserid(Integer userid) {
 		this.userid = userid;
 	}
 	public String getJianliname() {
@@ -120,16 +120,16 @@ public class Jianli {
 	public void setHopepositionname(String hopepositionname) {
 		this.hopepositionname = hopepositionname;
 	}
-	public int getSalarymin() {
+	public Integer getSalarymin() {
 		return salarymin;
 	}
-	public void setSalarymin(int salarymin) {
+	public void setSalarymin(Integer salarymin) {
 		this.salarymin = salarymin;
 	}
-	public int getSalarymax() {
+	public Integer getSalarymax() {
 		return salarymax;
 	}
-	public void setSalarymax(int salarymax) {
+	public void setSalarymax(Integer salarymax) {
 		this.salarymax = salarymax;
 	}
 	public String getWorkexperience() {
@@ -168,10 +168,10 @@ public class Jianli {
 	public void setSelfdescription(String selfdescription) {
 		this.selfdescription = selfdescription;
 	}
-	public int getStatus() {
+	public Integer getStatus() {
 		return status;
 	}
-	public void setStatus(int status) {
+	public void setStatus(Integer status) {
 		this.status = status;
 	}
 	public Date getUpdatetime() {

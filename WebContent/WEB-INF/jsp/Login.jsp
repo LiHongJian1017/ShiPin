@@ -48,17 +48,12 @@ var youdao_conv_id = 271546;
 				<input type="text" id="email" name="email" value="" tabindex="1" placeholder="请输入登录邮箱地址" />
 			  	<input type="password" id="password" name="password" tabindex="2" placeholder="请输入密码" />
 				<span class="error" style="display:none;" id="beError"></span>
-			    <label class="fl" for="remember"><input type="checkbox" id="remember" value="" checked="checked" name="autoLogin" /> 记住我</label>
-			    <a href="reset.html" class="fr" target="_blank">忘记密码？</a>
+			    <label class="fl" for="remember"><input type="checkbox" disabled="disabled" id="remember" value="" checked="checked" name="autoLogin" /> 记住我</label>
+			    <a class="fr" target="_blank">忘记密码？</a>
 			    
 				<!--<input type="submit" id="submitLogin" value="登 &nbsp; &nbsp; 录" />-->
-				<a style="color:#fff;" href="logincheck.action?type=2" class="submitLogin" title="登 &nbsp; &nbsp; 录"/>登 &nbsp; &nbsp; 录</a>
-
-			    
-			    <input type="hidden" id="callback" name="callback" value=""/>
-                <input type="hidden" id="authType" name="authType" value=""/>
-                <input type="hidden" id="signature" name="signature" value=""/>
-                <input type="hidden" id="timestamp" name="timestamp" value=""/>
+				<!-- <a style="color:#fff;" href="logincheck.action?type=2" class="submitLogin" title="登 &nbsp; &nbsp; 录"/>登 &nbsp; &nbsp; 录</a> -->
+				<input type="submit" id="submitLogin" value="登 &nbsp; &nbsp; 录" />
 			</form>
 			<div class="login_right">
 				<div>还没有师聘帐号？</div>
@@ -91,7 +86,7 @@ $(function(){
 	    	messages: {
 	    	   	email: {
 	    	    	required: "请输入登录邮箱地址",
-	    	    	email: "请输入有效的邮箱地址，如：vivi@lagou.com"
+	    	    	email: "请输入有效的邮箱地址，如：vivi@shipin.com"
 	    	   	},
 	    	   	password: {
 	    	    	required: "请输入密码"
@@ -105,30 +100,45 @@ $(function(){
 	      		}
 	    		var email = $('#email').val();
 	    		var password = $('#password').val();
-	    		var remember = $('#remember').val();
-	    		
-	    		var callback = $('#callback').val();
-	    		var authType = $('#authType').val();
-	    		var signature = $('#signature').val();
-	    		var timestamp = $('#timestamp').val();
+	    		var formData = new FormData(); 
+	    	    formData.append('username',email); 
+	    	    formData.append('password',password); 
 	    		
 	    		$(form).find(":submit").attr("disabled", true);
-	            $.ajax({
-	            	type:'POST',
-	            	data:{email:email,password:password,autoLogin:remember, callback:callback, authType:authType, signature:signature, timestamp:timestamp},
-	            	url:ctx+'/user/login.json'
-	            }).done(function(result) {
-					if(result.success){
-					 	if(result.content.loginToUrl){
-							window.location.href=result.content.loginToUrl;
-	            		}else{
-	            			window.location.href=ctx+'/';
-	            		} 
-					}else{
-						$('#beError').text(result.msg).show();
-					}
-					$(form).find(":submit").attr("disabled", false);
-	            }); 
+	    		  $.ajax({
+		                url: 'http://localhost:8080/logincheck.action',
+		                type: 'POST',
+		                cache: false, //上传文件不需要缓存
+		                dataType: "text",  
+		                data: formData,
+		                processData: false, // 告诉jQuery不要去处理发送的数据
+		                contentType: false, // 告诉jQuery不要去设置Content-Type请求头
+		                success: function (data) {
+		                	if(data=='3'){
+		                		alert('登录成功！')
+		                		window.location.href = "index.action"; 
+		                	}else if(data=='2'){
+		                		document.getElementById("submitLogin").disabled="";
+		                		alert('用户名或密码错误')
+		                	}else  if(data=='5'){
+		                		alert('登录成功！')
+		                		window.location.href = "reviewlist.action?page=1"; 
+		                	}else  if(data=='4'){
+		                		alert('登录成功！')
+		                		window.location.href = "myhome.action"; 
+		                	}else  if(data=='6'){
+		                		alert('登录成功！')
+		                		window.location.href = "userlist.action?page=1&status=2"; 
+		                	}else{
+		                		document.getElementById("submitLogin").disabled="";
+		                		alert('登录失败')
+		                	}
+		                },
+		                error: function (data) {
+		                	document.getElementById("submitLogin").disabled="";
+		                	alert('登录失败')
+		                }
+		            }) 
 	        }  
 		});
 })

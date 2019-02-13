@@ -11,7 +11,7 @@
 <link rel="alternate" media="handheld" />
 <!-- end 云适配 -->
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>全国-公司列表-师聘网-最专业的互联网招聘平台</title>
+<title>${companyaddress}-公司列表-师聘网-最专业的互联网招聘平台</title>
 <meta property="qc:admins" content="23635710066417756375" />
 <meta content="全国condition-condition-公司列表-师聘网-最专业的互联网招聘平台"
 	name="description">
@@ -86,7 +86,7 @@
 				</ul>
 				<dl class="collapsible_menu">
 					<dt>
-						<span>Jerry&nbsp;</span> <span class="red dn" id="noticeDot-1"></span>
+						<span>${sessionScope.nickname}&nbsp;</span> <span class="red dn" id="noticeDot-1"></span>
 						<i></i>
 					</dt>
 					<dd style="display: none;">
@@ -98,11 +98,14 @@
 					<dd style="display: none;">
 						<a href="delivery.action">我投递的职位</a>
 					</dd>
-					<dd  class="btm" style="display: none;">
-						<a href="">我的订阅</a>
+					<dd style="display: none;">
+						<a href="mlist.action?page=1">我的推荐</a>
+					</dd>
+					<dd class="btm" style="display: none;">
+						<a href="certification.action">我的资格认证</a>
 					</dd>
 					<dd style="display: none;">
-						<a href="">帐号设置</a>
+						<a href="userupdatepassword.action">帐号设置</a>
 					</dd>
 					<dd class="logout" style="display: none;">
 						<a rel="nofollow" href="logout.action">退出</a>
@@ -759,14 +762,14 @@
 				</div>
 				<div class="content_r">
 					<div class="subscribe_side">
-						<a href="subscribe.html" target="_blank">
+						<a>
 							<div class="subpos">
-								<span>订阅</span> 职位
+								<span>职位</span> 推荐
 							</div>
-							<div class="c7">师聘网会根据你的筛选条件，定期将符合你要求的职位信息发给你</div>
+							<div class="c7">师聘网会根据你的简历条件，将符合你要求的职位信息推荐给你</div>
 							<div class="count">
-								已有 <em>3</em> <em>4</em> <em>2</em> <em>1</em> <em>0</em> 人订阅
-							</div> <i>我也要订阅职位</i>
+								
+							</div> 
 						</a>
 					</div>
 					<div class="greybg qrcode mt20">
@@ -807,13 +810,12 @@
 	<!-- end #body -->
 	<div id="footer">
 		<div class="wrapper">
-			<a href="h/about.html" target="_blank" rel="nofollow">联系我们</a> <a
-				href="h/af/zhaopin.html" target="_blank">互联网公司导航</a> <a
-				href="http://e.weibo.com/lagou720" target="_blank" rel="nofollow">师聘微博</a>
+			<a  target="_blank" rel="nofollow">联系我们</a> <a
+				 target="_blank">互联网公司导航</a> <a
+				 target="_blank" rel="nofollow">师聘微博</a>
 			<a class="footer_qr" href="javascript:void(0)" rel="nofollow">师聘微信<i></i></a>
 			<div class="copyright">
-				&copy;2017-2019 师聘 <a target="_blank"
-					href="http://www.miitbeian.gov.cn/state/outPortal/loginPortal.action">京ICP备14023790号-2</a>
+				&copy;2017-2019 师聘 <a target="_blank">京ICP备14023790号-2</a>
 			</div>
 		</div>
 	</div>

@@ -11,14 +11,7 @@
 <link rel="alternate" media="handheld" />
 <!-- end 云适配 -->
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>内容运营-立方网-师聘网-最专业的互联网招聘平台</title>
-<meta property="qc:admins" content="23635710066417756375" />
-<meta
-	content="内容运营 武汉 本科 3-5年 全职 运营 大家都来了 你还在等什么！！ 立方网 北京立方网信息技术有限公司 立方网努力尝试把许多人对互联网的需求从现有的娱乐、资讯和交流平台进一步引导到文化与生活伴侣的方面. 师聘网-最专业的互联网招聘平台"
-	name="description">
-<meta
-	content="内容运营 武汉 本科 3-5年 全职 运营 大家都来了 你还在等什么！！ 立方网 北京立方网信息技术有限公司 立方网努力尝试把许多人对互联网的需求从现有的娱乐、资讯和交流平台进一步引导到文化与生活伴侣的方面. 师聘网-最专业的互联网招聘平台"
-	name="keywords">
+<title>${position.positionname}-${company.companyname}-师聘网-最专业的互联网招聘平台</title>
 <meta name="baidu-site-verification" content="QIQ6KC1oZ6" />
 
 <!-- <div class="web_root"  style="display:none">h</div> -->
@@ -46,7 +39,7 @@
 	<div id="body">
 		<div id="header">
 			<div class="wrapper">
-				<a href="index.html" class="logo"> <img
+				<a href="" class="logo"> <img
 					src="style/images/logo.png" width="229" height="43"
 					alt="师聘招聘-专注互联网招聘" />
 				</a>
@@ -59,7 +52,7 @@
 				</ul>
 				<dl class="collapsible_menu">
 					<dt>
-						<span>Jerry&nbsp;</span> <span class="red dn" id="noticeDot-1"></span>
+						<span>${sessionScope.nickname}&nbsp;</span> <span class="red dn" id="noticeDot-1"></span>
 						<i></i>
 					</dt>
 					<dd style="display: none;">
@@ -71,11 +64,14 @@
 					<dd style="display: none;">
 						<a href="delivery.action">我投递的职位</a>
 					</dd>
-					<dd  class="btm" style="display: none;">
-						<a href="">我的订阅</a>
+					<dd style="display: none;">
+						<a href="mlist.action?page=1">我的推荐</a>
+					</dd>
+					<dd class="btm" style="display: none;">
+						<a href="certification.action">我的资格认证</a>
 					</dd>
 					<dd style="display: none;">
-						<a href="">帐号设置</a>
+						<a href="userupdatepassword.action">帐号设置</a>
 					</dd>
 					<dd class="logout" style="display: none;">
 						<a rel="nofollow" href="logout.action">退出</a>
@@ -94,14 +90,14 @@
 								<div>${company.companyname}</div>
 								${position.positionname}
 							</h1>
-
+					<c:if test="${position.status=='1'}">
 							<c:if test="${not empty collection}">
 							<a class="jd_collection  job-collection collected" href="javascript:void(0);" onclick="concelcollection(${userid},${position.positionid});" title="取消收藏"></a>
 							</c:if>
 							<c:if test="${empty collection}">
 							<a class="jd_collection  job-collection" href="javascript:void(0);" onclick="collection(${userid},${position.positionid});" title="收藏"></a>
 							</c:if>
-
+					</c:if>
 						</dt>
 						<dd class="job_request">
 							<span class="red">${position.salarymin}k-${position.salarymax}k</span> <span>${position.workaddress}</span> 
@@ -164,9 +160,11 @@
 									title="完善在线简历">完善在线简历</a>&nbsp;&nbsp;再进行投递
 							</div>
 						</dd>
-						<dd>
-							<a onclick="deliveryjianli()" class="btn fr btn_apply">投个简历</a>
-						</dd>
+						<c:if test="${position.status=='1'}">
+							<dd>
+								<a onclick="deliveryjianli()" class="btn fr btn_apply">投个简历</a>
+							</dd>
+						</c:if>
 					</dl>
 					<div id="weibolist"></div>
 				</div>
@@ -845,13 +843,12 @@ var options = {
 	<!-- end #body -->
 	<div id="footer">
 		<div class="wrapper">
-			<a href="h/about.html" target="_blank" rel="nofollow">联系我们</a> <a
-				href="h/af/zhaopin.html" target="_blank">互联网公司导航</a> <a
-				href="http://e.weibo.com/lagou720" target="_blank" rel="nofollow">师聘微博</a>
+			<a  target="_blank" rel="nofollow">联系我们</a> <a
+				 target="_blank">互联网公司导航</a> <a
+				 target="_blank" rel="nofollow">师聘微博</a>
 			<a class="footer_qr" href="javascript:void(0)" rel="nofollow">师聘微信<i></i></a>
 			<div class="copyright">
-				&copy;2017-2019 师聘 <a target="_blank"
-					href="http://www.miitbeian.gov.cn/state/outPortal/loginPortal.action">京ICP备14023790号-2</a>
+				&copy;2017-2019 师聘 <a target="_blank">京ICP备14023790号-2</a>
 			</div>
 		</div>
 	</div>
@@ -921,6 +918,9 @@ function deliveryjianli() {
         	}
 			if(data=='3'){
 				alert("简历投递成功")
+        	}
+			if(data=='4'){
+				alert("此职位已经失效")
         	}
         	
         },

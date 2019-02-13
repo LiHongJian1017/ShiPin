@@ -21,7 +21,7 @@ public interface PosandcomService {
 
 	Collection selectcollection(Map map);
 
-	Lianheposition selectlianheposition(int companyid);
+	List<Lianheposition> selectlianheposition(int companyid);
 
 	List<Position> select_position(int companyid);
 
@@ -40,5 +40,14 @@ public interface PosandcomService {
 	int selectcompanycount(Map map);
 
 	List<Position> selectremen();
+
+	List<Posandcom> selectcollections(int userid);
+
+	List<Posandcom> mlistjob(Map map);
+
+	int mlistjobcount(Map map);
+
+	List<Posandcom> mlistjobright(Map newmap);
+
 
 }

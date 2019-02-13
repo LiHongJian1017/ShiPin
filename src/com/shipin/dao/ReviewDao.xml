@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shipin.dao.ReviewDao">
+	<select id="allCertification" parameterType="Map" resultType="com.shipin.pojo.Certification">
+		select * from certification where status=0 ORDER BY updatetime
+		limit #{start},9
+	</select>
+	
+	<select id="countCertification" parameterType="Map" resultType="int">
+		select count(*)
+		from certification where status=0
+	</select>
+	
+	<select id="Certification" parameterType="Map" resultType="com.shipin.pojo.Certification">
+		select *
+		from certification where userid=#{userid}
+	</select>
+	
+	<select id="selectPosition" parameterType="Map" resultType="com.shipin.pojo.Position">
+		select * from lianheposition 
+		<where>
+		<if test="status != null">
+		and status = #{status}
+		</if>
+		<if test="number != null">
+		and number = #{number}
+		</if>
+	</where>
+		ORDER BY releasetime
+		limit #{start},9
+	</select>
+	<select id="countPosition" parameterType="Map" resultType="int">
+		select count(*) from lianheposition 
+		<where>
+		<if test="status != null">
+		and status = #{status}
+		</if>
+		<if test="number != null">
+		and number = #{number}
+		</if>
+	</where>
+	</select>
+	
+	<select id="getchart" parameterType="Map" resultType="double">
+		select avg((salarymin+salarymax)/2*1000) from  position
+		<where>
+		<if test="workaddress != null">
+		and workaddress = #{workaddress}
+		</if>
+		<if test="education != null">
+		and education = #{education}
+		</if>
+		<if test="experience != null">
+		and <![CDATA[CONVERT(experience,SIGNED)>= ]]> #{experience}
+		</if>
+	</where>
+	</select>
+	<update id="tuihuiCertification" parameterType="Map">
+		update certification 
+		<!-- set标签作用:
+					第一可以自动添加set关键字, 
+					第二可以去掉最后一个更新的逗号 -->
+		<set>
+			<if test="reason != null and reason != ''">
+				reason=#{reason},
+			</if>
+			<if test="status != null">
+				status=#{status},
+			</if>
+		</set>
+		where userid=#{userid,jdbcType=INTEGER}
+	</update>
+	<update id="setnumber" parameterType="Map">
+		update lianheposition 
+		<!-- set标签作用:
+					第一可以自动添加set关键字, 
+					第二可以去掉最后一个更新的逗号 -->
+		<set>
+			<if test="number != null">
+				number=#{number},
+			</if>
+		</set>
+		where positionid=#{positionid,jdbcType=INTEGER}
+	</update>
+	<update id="tongguoCertification" parameterType="Map">
+		update certification 
+		<!-- set标签作用:
+					第一可以自动添加set关键字, 
+					第二可以去掉最后一个更新的逗号 -->
+		<set>
+			<if test="status != null">
+				status=#{status},
+			</if>
+		</set>
+		where userid=#{userid,jdbcType=INTEGER}
+	</update>
+	<update id="updatejianli" parameterType="Map">
+		update jianli 
+		<!-- set标签作用:
+					第一可以自动添加set关键字, 
+					第二可以去掉最后一个更新的逗号 -->
+		<set>
+			<if test="certification != null  and  certification != ''">
+				certification=#{certification},
+			</if>
+		</set>
+		where userid=#{userid,jdbcType=INTEGER}
+	</update>
+	<update id="updatepassword" parameterType="Map">
+		update user 
+		<!-- set标签作用:
+					第一可以自动添加set关键字, 
+					第二可以去掉最后一个更新的逗号 -->
+		<set>
+			<if test="password != null  and  password != ''">
+				password=#{password},
+			</if>
+		</set>
+		where userid=#{userid,jdbcType=INTEGER}
+	</update>
+</mapper>

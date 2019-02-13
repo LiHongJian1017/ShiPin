@@ -39,4 +39,10 @@ public class JianliServiceIpl implements JianliService{
 		userjianliDao.delivery(delivery);
 	}
 
+	@Override
+	public void uploadjianlistatus(Map map) {
+		// TODO Auto-generated method stub
+		userjianliDao.uploadjianlistatus(map);
+	}
+
 }

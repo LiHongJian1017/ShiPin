@@ -48,32 +48,27 @@ var youdao_conv_id = 271546;
         		<ul class="register_radio clearfix">
 		            <li>
 		            	找工作
-		              	<input type="radio" value="0" name="type" /> 
+		              	<input type="radio" value="2" name="type" /> 
 		            </li>
 		            <li>
 		           	           招人
-		              	<input type="radio" value="1" name="type" /> 
+		              	<input type="radio" value="3" name="type" /> 
 		            </li>
 		        </ul> 
             	<input type="text" id="email" name="email" tabindex="1" placeholder="请输入常用邮箱地址" />
                 <span class="error" style="display:none;" id="beError"></span>
                 <input type="password" id="password" name="password" tabindex="2" placeholder="请输入密码" />
             	<label class="fl registerJianJu" for="checkbox">
-            		<input type="checkbox" id="checkbox" name="checkbox" checked  class="checkbox valid" />我已阅读并同意<a href="h/privacy.html" target="_blank">《师聘用户协议》</a>
+            		<input type="checkbox" id="checkbox" name="checkbox" checked  class="checkbox valid" />我已阅读并同意<a  target="_blank">《师聘用户协议》</a>
            		</label>
                 <input type="submit" id="submitLogin" value="注 &nbsp; &nbsp; 册" />
-                
-                <input type="hidden" id="callback" name="callback" value=""/>
-                <input type="hidden" id="authType" name="authType" value=""/>
-                <input type="hidden" id="signature" name="signature" value=""/>
-                <input type="hidden" id="timestamp" name="timestamp" value=""/>
             </form>
             <div class="login_right">
             	<div>已有师聘帐号</div>
             	<a  href="login.action"  class="registor_now">直接登录</a>
                 <div class="login_others">使用以下帐号直接登录:</div>
-                <a  href="h/ologin/auth/sina.html"  target="_blank" class="icon_wb" title="使用新浪微博帐号登录"></a>
-               	<a  href="h/ologin/auth/qq.html"  class="icon_qq" target="_blank" title="使用腾讯QQ帐号登录" ></a>
+                <a  href=""  target="_blank" class="icon_wb" title="使用新浪微博帐号登录"></a>
+               	<a  href=""  class="icon_qq" target="_blank" title="使用腾讯QQ帐号登录" ></a>
             </div>
         </div>
         <div class="login_box_btm"></div>
@@ -111,7 +106,7 @@ var youdao_conv_id = 271546;
 	    	        	},
 			    	 	email: {
 			    	    	required: "请输入常用邮箱地址",
-			    	    	email: "请输入有效的邮箱地址，如：vivi@lagou.com"
+			    	    	email: "请输入有效的邮箱地址，如：vivi@shipin.com"
 			    	   	},
 			    	   	password: {
 			    	    	required: "请输入密码",
@@ -142,29 +137,50 @@ var youdao_conv_id = 271546;
 			    		var type =$('input[type="radio"]:checked',form).val();
 			    		var email =$('#email').val();
 			    		var password =$('#password').val();
-			    		var resubmitToken = $('#resubmitToken').val();
-			    		
-			    		var callback = $('#callback').val();
-			    		var authType = $('#authType').val();
-			    		var signature = $('#signature').val();
-			    		var timestamp = $('#timestamp').val();
-			    		
+			    		var formData = new FormData(); 
+			    	    formData.append('type',type); 
+			    	    formData.append('username',email); 
+			    	    formData.append('password',password); 
 			    		$(form).find(":submit").attr("disabled", true);
-
-			            $.ajax({
+			           /*  $.ajax({
 			            	type:'POST',
-			            	data: {email:email,password:password,type:type,resubmitToken:resubmitToken, callback:callback, authType:authType, signature:signature, timestamp:timestamp},
-			            	url:ctx+'/user/register.json',
-			            	dataType:'json'
+			            	data: {email:email,password:password,type:type,resubmitToken:resubmitToken},
+			            	url:'/realregister.action'
+			            	
 			            }).done(function(result) {
 		            		$('#resubmitToken').val(result.resubmitToken);
 			            	if(result.success){
-			            		window.location.href=result.content;			            		
+			            		window.location.href="logout.action";			            		
 			            	}else{
 								$('#beError').text(result.msg).show();
 			            	}
 			            	$(form).find(":submit").attr("disabled", false);			           		
-			            });
+			            }); */
+			            $.ajax({
+			                url: '/realregister.action',
+			                type: 'POST',
+			                cache: false, //上传文件不需要缓存
+			                dataType: "text",  
+			                data: formData,
+			                processData: false, // 告诉jQuery不要去处理发送的数据
+			                contentType: false, // 告诉jQuery不要去设置Content-Type请求头
+			                success: function (data) {
+			                	if(data=='1'){
+			                		alert('注册成功,赶快去登陆吧！')
+			                		window.location.href = "login.action"; 
+			                	}else if(data=='2'){
+			                		document.getElementById("submitLogin").disabled="";
+			                		alert('此邮箱已经注册')
+			                	}else{
+			                		document.getElementById("submitLogin").disabled="";
+			                		alert('注册失败')
+			                	}
+			                },
+			                error: function (data) {
+			                	document.getElementById("submitLogin").disabled="";
+			                	alert('注册失败')
+			                }
+			            })
 			        }  
 	    	});
     });

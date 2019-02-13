@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shipin.dao.AppDao">
+	<select id="selectuser" resultType="com.shipin.pojo.User">
+		select * from user
+	</select>
+	<select id="applogin" parameterType="Map" resultType="com.shipin.pojo.User">
+		select * from user where username = #{username} and password = #{password} and type=2
+	</select>
+	<select id="appremenpositions" resultType="com.shipin.pojo.Posandcom">
+		select position.positionid positionid,position.positionname positionname,position.workaddress workaddress,position.salarymin salarymin,position.salarymax salarymax,position.education education,position.experience experience,position.positionadvantage positionadvantage,position.releasetime releasetime,
+position.companyid companyid,company.companyname companyname,company.companytype companytype,company.companysize companysize,company.companyceoname companyceoname,company.companyceoname companyceoname,company.companylogo companylogo,company.companytag1 companytag1,company.companytag2 companytag2,company.companytag3 companytag3,company.companytag4 companytag4,company.companytag5 companytag5 
+from position join company on position.companyid=company.companyid where status=1 order by  number desc limit 20
+	</select>
+	
+	<select id="appjoblist" parameterType="Map" resultType="com.shipin.pojo.Posandcom">
+		select position.positionid positionid,position.positionname positionname,position.workaddress workaddress,position.salarymin salarymin,position.salarymax salarymax,position.education education,position.experience experience,position.positionadvantage positionadvantage,position.releasetime releasetime,
+position.companyid companyid,company.companyname companyname,company.companytype companytype,company.companysize companysize,company.companyceoname companyceoname,company.companyceoname companyceoname,company.companylogo companylogo,company.companytag1 companytag1,company.companytag2 companytag2,company.companytag3 companytag3,company.companytag4 companytag4,company.companytag5 companytag5 
+from position join company on position.companyid=company.companyid
+	<where>
+		<if test="positionname != null and positionname != ''">
+		and position.positionname like '%${positionname}%'
+		</if>
+		<if test="workaddress != null and workaddress!='null'">
+		and position.workaddress = #{workaddress}
+		</if>
+		<if test="salarymin != null">
+		and <![CDATA[CONVERT(position.salarymin,SIGNED)>= ]]> #{salarymin}
+		</if>
+		<if test="salarymax != null">
+		and <![CDATA[CONVERT(position.salarymax,SIGNED)<= ]]> #{salarymax}
+		</if>
+		<if test="experiencestart != null">
+		and <![CDATA[CONVERT(position.experience,SIGNED)>= ]]> #{experiencestart}
+		</if>
+		<if test="experienceend != null">
+		and <![CDATA[CONVERT(position.experience,SIGNED)<= ]]> #{experienceend}
+		</if>
+		<if test="education != null">
+		and <![CDATA[CONVERT(position.education,SIGNED)>= ]]> #{education}
+		</if>
+		<if test="positionnature != null and positionnature != ''">
+		and position.positionnature =#{positionnature}
+		</if>
+		and status=1 
+	</where>
+	limit #{start},20
+	</select>
+	
+	<select id="appcompanylist" parameterType="Map" resultType="com.shipin.pojo.Company">
+		select * from company join user on company.userid=user.userid
+	<where>
+		<if test="companyaddress != null and companyaddress != ''">
+		and company.companyaddress =#{companyaddress}
+		</if>
+		<if test="companysize != null and companysize != ''">
+		and  company.companysize =#{companysize}
+		</if>
+		and user.status=1 
+		and company.companyname is  not  null
+		and company.companytype  is  not  null
+		and company.companyaddress  is  not  null
+		and company.companysize  is  not  null
+	</where>
+	limit #{start},15
+	</select>
+	<select id="appcompanydetailone" parameterType="int" resultType="com.shipin.pojo.Company">
+		select * from company where companyid =#{companyid,jdbcType=INTEGER}
+	</select>
+	<select id="appcompanydetailthree" parameterType="int" resultType="com.shipin.pojo.Position">
+		select * from position where companyid =#{companyid,jdbcType=INTEGER} and status=1
+	</select>
+	<select id="appjobdetail" parameterType="int" resultType="com.shipin.pojo.Poscom">
+		select position.positiondetail positiondetail,position.positionaddress positionaddress,position.positionnature positionnature,position.positionid positionid,position.positionname positionname,position.workaddress workaddress,position.salarymin salarymin,position.salarymax salarymax,position.education education,position.experience experience,position.positionadvantage positionadvantage,position.releasetime releasetime,
+position.companyid companyid,company.companyname companyname,company.companytype companytype,company.companysize companysize,company.companyceoname companyceoname,company.companyceoname companyceoname,company.companylogo companylogo,company.companytag1 companytag1,company.companytag2 companytag2,company.companytag3 companytag3,company.companytag4 companytag4,company.companytag5 companytag5 
+from position join company on position.companyid=company.companyid where status=1 and position.positionid=#{positionid}
+	</select>
+	<select id="appuserinfo" parameterType="int" resultType="com.shipin.pojo.Jianli">
+		select * from jianli where userid =#{userid,jdbcType=INTEGER}
+	</select>
+	
+	<update id="appmima" parameterType="Map">
+		update user 
+		<set>
+			<if test="password != null">
+				password=#{password} ,
+			</if>
+		</set>
+		where userid=#{userid}
+	</update>
+	<!-- <select id="selectCountAssessor" parameterType="Map" resultType="int">
+		select count(*) from user 
+		<where>
+		<if test="status != null and status != 2">
+		and status = #{status}
+		</if>
+		<if test="type != null and type != ''">
+		and type = #{type}
+		</if>
+		
+	</where>
+	</select>
+	
+	<select id="checkassessor" parameterType="Map" resultType="com.shipin.pojo.User">
+		select * from user
+	<where>
+		<if test="username != null and username != ''">
+			and username = #{username}
+		</if>
+	</where>
+	</select>
+	<select id="userdetail" parameterType="Map" resultType="com.shipin.pojo.User">
+		select * from user 
+		<where>
+		<if test="userid != null">
+		and userid = #{userid}
+		</if>	
+	</where>
+	</select>
+	
+	<update id="updatestatus" parameterType="Map">
+		update user 
+		<set>
+			<if test="status != null">
+				status=#{status} ,
+			</if>
+		</set>
+		where userid=#{userid}
+	</update>
+		<update id="update" parameterType="Map">
+		update user 
+		<set>
+			<if test="name != null">
+				name=#{name} ,
+			</if>
+			<if test="password != null">
+				password=#{password} ,
+			</if>
+		</set>
+		where userid=#{userid}
+	</update>
+	
+	<delete id="deleteassessor" parameterType="Map">
+		delete from user where userid=#{userid}
+	</delete>
+	<insert id="addassessor" parameterType="Map">
+		insert into user (name, password,username, type, status) values (#{name},#{password},#{username}, #{type}, #{status})	
+	</insert>  -->
+	
+</mapper>

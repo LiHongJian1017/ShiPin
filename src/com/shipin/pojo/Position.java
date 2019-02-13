@@ -17,8 +17,8 @@ public class Position {
 	private String experience;			//经验
 	private String positionadvantage;	//职位诱惑
 	private Date releasetime;			//发布时间
-	private int status;					//职位状态(0下线 1上线 2联合招聘)
-	private int number;					//点击数
+	private int status;					//职位状态(0下线 1上线)
+	private int number;					//点击数或查看简历状态
 	private int companyid;				//公司id
 	public int getPositionid() {
 		return positionid;
